@@ -23,14 +23,13 @@ DEPLOY_NETWORK = docker-net
 .PHONY: local local-env local-stop local-down local-clean
 local: .env
 	docker compose -f $(COMPOSE_FILE_LOCAL) up -d
-
 local-env: .env
 
 local-stop:
 	docker compose -f $(COMPOSE_FILE_LOCAL) stop
 
 local-down:
-	docker compose -f $(COMPOSE_FILE_LOCAL) down
+	docker compose -f $(COMPOSE_FILE_LOCAL) down -v
 
 local-clean: local-down
 	for VOLUME in $(shell docker compose -f $(COMPOSE_FILE_LOCAL) volumes -q); \
@@ -66,3 +65,12 @@ deploy-clean: deploy-down
 	if test -n "$$(docker network ls -q --filter name=$(DEPLOY_NETWORK))"; then \
 		docker network rm $(DEPLOY_NETWORK) > /dev/null; fi
 
+codegen:
+	rm -rf lib/src/generated
+	serverpod generate
+
+migrate:
+	dart run bin/main.dart --role maintenance --apply-migrations
+
+recreate-db: local-down local codegen migrate
+	@echo "DB recreated & migrations applied."

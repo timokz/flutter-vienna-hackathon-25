@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
-import 'package:wien_talks_flutter/show_latest_news_widget.dart';
+import 'package:wien_talks_flutter/screens/show_latest_news_widget.dart';
 import 'package:wien_talks_flutter/widgets/intro_text_widget.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 
-import 'carousel_widget.dart';
+import '../widgets/carousel_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -29,8 +29,10 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(Theme.of(context).primaryColor),
-                          foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary)),
+                          backgroundColor: WidgetStateProperty.all(
+                              Theme.of(context).primaryColor),
+                          foregroundColor: WidgetStateProperty.all(
+                              Theme.of(context).colorScheme.onPrimary)),
                       onPressed: () {
                         context.pushNamed("create_event");
                       },
@@ -45,7 +47,8 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 Spacer(),
-                Text(FunmapMgr().serverUrl, style: Theme.of(context).textTheme.bodySmall),
+                Text(FunmapMgr().serverUrl,
+                    style: Theme.of(context).textTheme.bodySmall),
               ],
             )
           ],

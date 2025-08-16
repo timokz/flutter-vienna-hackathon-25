@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wien_talks_flutter/show_latest_news_widget.dart';
+import 'package:wien_talks_flutter/screens/show_latest_news_widget.dart';
 import 'package:wien_talks_flutter/widgets/heading_text.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 
@@ -16,7 +16,7 @@ class NewsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeadingText(text: "Latest news"),
+            HeadingText(text: "What's being said"),
             ShowLatestNewsWidget(),
             SizedBox(
               height: 30,

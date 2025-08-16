@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
-import 'package:wien_talks_flutter/get_location_widget.dart';
+import 'package:wien_talks_flutter/widgets/get_location_widget.dart';
 import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/mapfile_widget.dart';
-import 'package:wien_talks_flutter/news_input_form.dart';
+import 'package:wien_talks_flutter/widgets/news_input_form.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 
-import 'location_mgr.dart';
+import '../helper/location_mgr.dart';
 
 class CreateEventScreen extends StatelessWidget {
   const CreateEventScreen({super.key});
@@ -24,7 +24,11 @@ class CreateEventScreen extends StatelessWidget {
         ),
         StreamBuilder(
             stream: LocationMgr().stream,
-            builder: (BuildContext context, AsyncSnapshot<LocationData> snapshot) => snapshot.data != null ? Text(snapshot.data.toString()) : SizedBox()),
+            builder:
+                (BuildContext context, AsyncSnapshot<LocationData> snapshot) =>
+                    snapshot.data != null
+                        ? Text(snapshot.data.toString())
+                        : SizedBox()),
         Expanded(
           child: GetLocationWidget(
             child: MapfileWidget(),

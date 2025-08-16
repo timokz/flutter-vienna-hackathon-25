@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wien_talks_flutter/location_mgr.dart';
+import 'package:wien_talks_flutter/helper/location_mgr.dart';
 
 class GetLocationWidget extends StatefulWidget {
   final Widget child;
@@ -31,7 +31,8 @@ class _GetLocationWidgetState extends State<GetLocationWidget> {
               {
                 if (snapshot.hasData) {
                   // Error occured
-                  return Text(snapshot.data.toString(), style: TextStyle(color: Colors.red));
+                  return Text(snapshot.data.toString(),
+                      style: TextStyle(color: Colors.red));
                 } else {
                   return widget.child;
                 }

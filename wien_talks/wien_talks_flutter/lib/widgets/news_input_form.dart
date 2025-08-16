@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:location/location.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
-import 'package:wien_talks_flutter/location_mgr.dart';
+import 'package:wien_talks_flutter/helper/location_mgr.dart';
 import 'package:wien_talks_flutter/widgets/error_snackbar.dart';
 
 typedef OnSubmit = Future<void> Function(CreateQuoteRequest request);
@@ -28,8 +28,11 @@ class _NewsInputFormState extends State<NewsInputForm> {
 
   void _submitForm() async {
     LocationData? locationData = LocationMgr().lastLocation;
-    if (locationData == null || locationData.latitude == null || locationData.longitude == null) {
-      ErrorSnackbar().show(context, "No location available, please retry later");
+    if (locationData == null ||
+        locationData.latitude == null ||
+        locationData.longitude == null) {
+      ErrorSnackbar()
+          .show(context, "No location available, please retry later");
       return;
     }
     if (_formKey.currentState!.validate()) {
@@ -79,8 +82,10 @@ class _NewsInputFormState extends State<NewsInputForm> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(Theme.of(context).primaryColor),
-                  foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary)),
+                  backgroundColor:
+                      WidgetStateProperty.all(Theme.of(context).primaryColor),
+                  foregroundColor: WidgetStateProperty.all(
+                      Theme.of(context).colorScheme.onPrimary)),
               onPressed: _submitForm,
               child: const Text('Submit News'),
             ),

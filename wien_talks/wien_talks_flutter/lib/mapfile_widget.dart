@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mapsforge_flutter/core.dart';
-import 'package:wien_talks_flutter/location_mgr.dart';
+import 'package:wien_talks_flutter/helper/location_mgr.dart';
 
 class MapfileWidget extends StatefulWidget {
   const MapfileWidget({super.key});

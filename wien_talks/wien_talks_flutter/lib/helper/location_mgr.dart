@@ -35,7 +35,8 @@ class LocationMgr {
 
   final SymbolCache symbolCache = FileSymbolCache();
 
-  final JobRenderer jobRenderer = kIsWeb ? MapOnlineRendererWeb() : MapOnlineRenderer();
+  final JobRenderer jobRenderer =
+      kIsWeb ? MapOnlineRendererWeb() : MapOnlineRenderer();
 
   final MarkerByItemDataStore markerDataStore = MarkerByItemDataStore();
 
@@ -44,7 +45,7 @@ class LocationMgr {
     return _instance!;
   }
 
-  LocationMgr._() {}
+  LocationMgr._();
 
   Future<String?> startup() async {
     serviceEnabled = await location.serviceEnabled();
@@ -70,18 +71,23 @@ class LocationMgr {
     );
     mapModel?.markerDataStores.add(markerDataStore);
     viewModel = ViewModel(displayModel: displayModel);
-    _subscription = location.onLocationChanged.listen((LocationData currentLocation) {
+    _subscription =
+        location.onLocationChanged.listen((LocationData currentLocation) {
       _lastLocationData = currentLocation;
-      if (currentLocation.latitude != null && currentLocation.longitude != null) {
-        viewModel?.setMapViewPosition(currentLocation.latitude!, currentLocation.longitude!);
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        viewModel?.setMapViewPosition(
+            currentLocation.latitude!, currentLocation.longitude!);
         if (iconMarker == null) {
           iconMarker ??= IconMarker(
               fontSize: 30,
               icon: Icons.gps_fixed,
               color: Colors.red,
-              center: LatLong(currentLocation.latitude!, currentLocation.longitude!),
+              center: LatLong(
+                  currentLocation.latitude!, currentLocation.longitude!),
               displayModel: displayModel);
-          mapModel?.markerDataStores.add(MarkerDataStore()..addMarker(iconMarker!));
+          mapModel?.markerDataStores
+              .add(MarkerDataStore()..addMarker(iconMarker!));
         }
       }
       _subject.add(currentLocation);

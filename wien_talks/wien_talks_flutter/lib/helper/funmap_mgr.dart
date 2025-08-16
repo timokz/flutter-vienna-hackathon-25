@@ -10,7 +10,7 @@ class FunmapMgr {
 
   late Client client;
 
-  late final serverUrl;
+  late final String serverUrl;
 
   factory FunmapMgr() {
     if (_instance != null) return _instance!;
@@ -26,9 +26,11 @@ class FunmapMgr {
     // E.g. `flutter run --dart-define=SERVER_URL=https://api.example.com/`
 
     const serverUrlFromEnv = String.fromEnvironment('SERVER_URL');
-    serverUrl = serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
+    serverUrl =
+        serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
 
-    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))..connectivityMonitor = FlutterConnectivityMonitor();
+    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))
+      ..connectivityMonitor = FlutterConnectivityMonitor();
 
     client.openStreamingConnection();
   }
