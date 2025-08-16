@@ -1,4 +1,4 @@
-package com.example.wien_talks_flutter
+package com.wien_talks
 
 import io.flutter.embedding.android.FlutterActivity
 

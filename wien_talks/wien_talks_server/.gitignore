@@ -16,3 +16,4 @@ config/firebase_service_account_key.json
 
 .env
 *.env
+config/

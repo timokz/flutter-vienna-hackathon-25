@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.wien_talks_flutter"
+    namespace = "com.wien_talks"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.wien_talks_flutter"
+        applicationId = "com.wien_talks"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
