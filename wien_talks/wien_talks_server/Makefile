@@ -9,7 +9,7 @@ COMPOSE_PROJECT := $(shell basename $(shell pwd))
 .env: .env.template
 	cp -a .env.template .env
 
-.PHONY := local local-env local-stop local-down local-clean
+.PHONY: local local-env local-stop local-down local-clean
 local: .env
 	docker compose -f $(COMPOSE_FILE_LOCAL) up -d
 
