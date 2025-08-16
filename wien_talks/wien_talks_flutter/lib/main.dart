@@ -24,7 +24,7 @@ void main() {
   final serverUrl =
       serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
 
-  client = Client(serverUrl)
+  client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))
     ..connectivityMonitor = FlutterConnectivityMonitor();
 
   client.openStreamingConnection();
