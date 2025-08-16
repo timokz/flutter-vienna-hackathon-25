@@ -1,12 +1,12 @@
 class: Quote
+table: quote
 fields:
-  id: int
+  id: int?
   userId: int
   text: String
   authorName: String?
   lat: double
-  lng: double
-  geohash: String
+  long: double
   createdAt: DateTime
   visibility: int
   upvotes: int

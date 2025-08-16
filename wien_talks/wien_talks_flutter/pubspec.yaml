@@ -27,6 +27,8 @@ dependencies:
   serverpod_flutter: 2.9.1
   wien_talks_client:
     path: ../wien_talks_client
+  serverpod_auth_shared_flutter: ^2.9.1
+
 
 
   # The following adds the Cupertino Icons font to your application.

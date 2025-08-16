@@ -13,13 +13,12 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
 abstract class Quote implements _i1.SerializableModel {
   Quote._({
-    required this.id,
+    this.id,
     required this.userId,
     required this.text,
     this.authorName,
     required this.lat,
-    required this.lng,
-    required this.geohash,
+    required this.long,
     required this.createdAt,
     required this.visibility,
     required this.upvotes,
@@ -28,13 +27,12 @@ abstract class Quote implements _i1.SerializableModel {
   });
 
   factory Quote({
-    required int id,
+    int? id,
     required int userId,
     required String text,
     String? authorName,
     required double lat,
-    required double lng,
-    required String geohash,
+    required double long,
     required DateTime createdAt,
     required int visibility,
     required int upvotes,
@@ -44,13 +42,12 @@ abstract class Quote implements _i1.SerializableModel {
 
   factory Quote.fromJson(Map<String, dynamic> jsonSerialization) {
     return Quote(
-      id: jsonSerialization['id'] as int,
+      id: jsonSerialization['id'] as int?,
       userId: jsonSerialization['userId'] as int,
       text: jsonSerialization['text'] as String,
       authorName: jsonSerialization['authorName'] as String?,
       lat: (jsonSerialization['lat'] as num).toDouble(),
-      lng: (jsonSerialization['lng'] as num).toDouble(),
-      geohash: jsonSerialization['geohash'] as String,
+      long: (jsonSerialization['long'] as num).toDouble(),
       createdAt:
           _i1.DateTimeJsonExtension.fromJson(jsonSerialization['createdAt']),
       visibility: jsonSerialization['visibility'] as int,
@@ -62,7 +59,10 @@ abstract class Quote implements _i1.SerializableModel {
     );
   }
 
-  int id;
+  /// The database id, set if the object has been inserted into the
+  /// database or if it has been fetched from the database. Otherwise,
+  /// the id will be null.
+  int? id;
 
   int userId;
 
@@ -72,9 +72,7 @@ abstract class Quote implements _i1.SerializableModel {
 
   double lat;
 
-  double lng;
-
-  String geohash;
+  double long;
 
   DateTime createdAt;
 
@@ -95,8 +93,7 @@ abstract class Quote implements _i1.SerializableModel {
     String? text,
     String? authorName,
     double? lat,
-    double? lng,
-    String? geohash,
+    double? long,
     DateTime? createdAt,
     int? visibility,
     int? upvotes,
@@ -106,13 +103,12 @@ abstract class Quote implements _i1.SerializableModel {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'userId': userId,
       'text': text,
       if (authorName != null) 'authorName': authorName,
       'lat': lat,
-      'lng': lng,
-      'geohash': geohash,
+      'long': long,
       'createdAt': createdAt.toJson(),
       'visibility': visibility,
       'upvotes': upvotes,
@@ -131,13 +127,12 @@ class _Undefined {}
 
 class _QuoteImpl extends Quote {
   _QuoteImpl({
-    required int id,
+    int? id,
     required int userId,
     required String text,
     String? authorName,
     required double lat,
-    required double lng,
-    required String geohash,
+    required double long,
     required DateTime createdAt,
     required int visibility,
     required int upvotes,
@@ -149,8 +144,7 @@ class _QuoteImpl extends Quote {
           text: text,
           authorName: authorName,
           lat: lat,
-          lng: lng,
-          geohash: geohash,
+          long: long,
           createdAt: createdAt,
           visibility: visibility,
           upvotes: upvotes,
@@ -163,13 +157,12 @@ class _QuoteImpl extends Quote {
   @_i1.useResult
   @override
   Quote copyWith({
-    int? id,
+    Object? id = _Undefined,
     int? userId,
     String? text,
     Object? authorName = _Undefined,
     double? lat,
-    double? lng,
-    String? geohash,
+    double? long,
     DateTime? createdAt,
     int? visibility,
     int? upvotes,
@@ -177,13 +170,12 @@ class _QuoteImpl extends Quote {
     Object? tags = _Undefined,
   }) {
     return Quote(
-      id: id ?? this.id,
+      id: id is int? ? id : this.id,
       userId: userId ?? this.userId,
       text: text ?? this.text,
       authorName: authorName is String? ? authorName : this.authorName,
       lat: lat ?? this.lat,
-      lng: lng ?? this.lng,
-      geohash: geohash ?? this.geohash,
+      long: long ?? this.long,
       createdAt: createdAt ?? this.createdAt,
       visibility: visibility ?? this.visibility,
       upvotes: upvotes ?? this.upvotes,
