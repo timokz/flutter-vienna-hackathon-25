@@ -26,29 +26,24 @@ class LocationMgr {
 
   ViewModel? viewModel;
 
-  late MapModel mapModel;
+  MapModel? mapModel;
 
   IconMarker? iconMarker;
 
-  final DisplayModel displayModel = DisplayModel(maxZoomLevel: 20);
+  final DisplayModel displayModel = DisplayModel(maxZoomLevel: 18);
 
   final SymbolCache symbolCache = FileSymbolCache();
 
   final JobRenderer jobRenderer = MapOnlineRenderer();
+
+  final MarkerByItemDataStore markerDataStore = MarkerByItemDataStore();
 
   factory LocationMgr() {
     _instance ??= LocationMgr._();
     return _instance!;
   }
 
-  LocationMgr._() {
-    mapModel = MapModel(
-      displayModel: displayModel,
-      renderer: jobRenderer,
-      symbolCache: symbolCache,
-      tileBitmapCache: bitmapCache,
-    );
-  }
+  LocationMgr._() {}
 
   Future<String?> startup() async {
     serviceEnabled = await location.serviceEnabled();
@@ -66,6 +61,13 @@ class LocationMgr {
         return "No permissions granted";
       }
     }
+    mapModel = MapModel(
+      displayModel: displayModel,
+      renderer: jobRenderer,
+      symbolCache: symbolCache,
+      tileBitmapCache: bitmapCache,
+    );
+    mapModel?.markerDataStores.add(markerDataStore);
     viewModel = ViewModel(displayModel: displayModel);
     _subscription = location.onLocationChanged.listen((LocationData currentLocation) {
       _lastLocationData = currentLocation;
@@ -78,7 +80,7 @@ class LocationMgr {
               color: Colors.red,
               center: LatLong(currentLocation.latitude!, currentLocation.longitude!),
               displayModel: displayModel);
-          mapModel.markerDataStores.add(MarkerDataStore()..addMarker(iconMarker!));
+          mapModel?.markerDataStores.add(MarkerDataStore()..addMarker(iconMarker!));
         }
       }
       _subject.add(currentLocation);
@@ -89,7 +91,8 @@ class LocationMgr {
   void shutdown() {
     _subscription?.cancel();
     _subscription = null;
-    mapModel.markerDataStores.clear();
+    mapModel?.dispose();
+    mapModel = null;
     iconMarker = null;
     viewModel?.dispose();
     viewModel = null;

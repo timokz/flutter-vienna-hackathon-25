@@ -78,6 +78,9 @@ class _NewsInputFormState extends State<NewsInputForm> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(Theme.of(context).primaryColor),
+                  foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary)),
               onPressed: _submitForm,
               child: const Text('Submit News'),
             ),

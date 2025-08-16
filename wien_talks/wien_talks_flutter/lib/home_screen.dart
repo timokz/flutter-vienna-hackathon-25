@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/show_latest_news_widget.dart';
 import 'package:wien_talks_flutter/widgets/intro_text_widget.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IntroTextWidget(),
-            ShowLatestNewsWidget(),
+            SizedBox(height: 200, child: ShowLatestNewsWidget()),
             SizedBox(
               height: 30,
             ),
@@ -27,6 +28,9 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(Theme.of(context).primaryColor),
+                          foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary)),
                       onPressed: () {
                         context.pushNamed("create_event");
                       },
@@ -38,6 +42,12 @@ class HomeScreen extends StatelessWidget {
               height: 30,
             ),
             CarouselWidget(),
+            Row(
+              children: [
+                Spacer(),
+                Text(FunmapMgr().serverUrl, style: Theme.of(context).textTheme.bodySmall),
+              ],
+            )
           ],
         ),
       ),

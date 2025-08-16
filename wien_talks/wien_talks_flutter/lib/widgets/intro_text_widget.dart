@@ -6,9 +6,9 @@ class IntroTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,7 +23,7 @@ class IntroTextWidget extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               "Ever experienced something funny, weird, or just too good not to share? "
-              "With FunMap, you can pin your funniest moments and strange encounters right on the map! 🗺️😂",
+              "With FunMap, you can pin your funniest moments and strange encounters right on the map! 😂",
               style: GoogleFonts.roboto(fontSize: 16, height: 1.5),
             ),
             const SizedBox(height: 16),
@@ -38,16 +38,16 @@ class IntroTextWidget extends StatelessWidget {
               "👉 Add your event, mark the spot, and let the community enjoy the laughter with you.",
               style: GoogleFonts.roboto(
                 fontSize: 16,
-                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.italic,
                 height: 1.5,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              "Because the world’s a lot more fun when we laugh together. 🌍✨",
+              "Because the world’s a lot more fun when we laugh together.",
               style: GoogleFonts.roboto(
                 fontSize: 16,
-                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w600,
                 height: 1.5,
               ),
             ),

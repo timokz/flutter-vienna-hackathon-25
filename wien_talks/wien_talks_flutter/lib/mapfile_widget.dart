@@ -17,7 +17,7 @@ class _MapfileWidgetState extends State<MapfileWidget> {
     return MapviewWidget(
         displayModel: LocationMgr().displayModel,
         createMapModel: () async {
-          return LocationMgr().mapModel;
+          return LocationMgr().mapModel!;
         },
         createViewModel: () async {
           return LocationMgr().viewModel!;
