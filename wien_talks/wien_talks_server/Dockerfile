@@ -8,7 +8,7 @@ RUN dart pub get
 RUN dart compile exe bin/main.dart -o bin/server
 
 # Final stage
-FROM alpine:latest
+FROM alpine:3.22
 
 # Environment variables
 ENV runmode=production
