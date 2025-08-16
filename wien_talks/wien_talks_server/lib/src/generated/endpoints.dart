@@ -11,9 +11,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../quotes/quotes_endpoint.dart' as _i2;
-import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i3;
 import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
-    as _i4;
+    as _i3;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i4;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
@@ -31,30 +31,12 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'quote',
       endpoint: endpoints['quote']!,
       methodConnectors: {
-        'updateQuote': _i1.MethodConnector(
-          name: 'updateQuote',
-          params: {
-            'quote': _i1.ParameterDescription(
-              name: 'quote',
-              type: _i1.getType<_i3.Quote>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).updateQuote(
-            session,
-            params['quote'],
-          ),
-        ),
         'createQuote': _i1.MethodConnector(
           name: 'createQuote',
           params: {
             'req': _i1.ParameterDescription(
               name: 'req',
-              type: _i1.getType<_i4.CreateQuoteRequest>(),
+              type: _i1.getType<_i3.CreateQuoteRequest>(),
               nullable: false,
             )
           },
@@ -67,11 +49,29 @@ class Endpoints extends _i1.EndpointDispatch {
             params['req'],
           ),
         ),
-        'getQuoteById': _i1.MethodConnector(
-          name: 'getQuoteById',
+        'updateQuote': _i1.MethodConnector(
+          name: 'updateQuote',
           params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
+            'quote': _i1.ParameterDescription(
+              name: 'quote',
+              type: _i1.getType<_i4.Quote>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i2.QuoteEndpoint).updateQuote(
+            session,
+            params['quote'],
+          ),
+        ),
+        'getAllQuotes': _i1.MethodConnector(
+          name: 'getAllQuotes',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
               type: _i1.getType<int>(),
               nullable: false,
             )
@@ -80,31 +80,10 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).getQuoteById(
+              (endpoints['quote'] as _i2.QuoteEndpoint).getAllQuotes(
             session,
-            params['id'],
+            limit: params['limit'],
           ),
-        ),
-        'getAllQuotes': _i1.MethodConnector(
-          name: 'getAllQuotes',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).getAllQuotes(session),
-        ),
-        'quoteUpdates': _i1.MethodStreamConnector(
-          name: 'quoteUpdates',
-          params: {},
-          streamParams: {},
-          returnType: _i1.MethodStreamReturnType.streamType,
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-            Map<String, Stream> streamParams,
-          ) =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).quoteUpdates(session),
         ),
       },
     );

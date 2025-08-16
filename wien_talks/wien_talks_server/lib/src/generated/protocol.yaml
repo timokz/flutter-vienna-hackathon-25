@@ -1,6 +1,4 @@
 quote:
-  - updateQuote:
-  - quoteUpdates:
   - createQuote:
-  - getQuoteById:
+  - updateQuote:
   - getAllQuotes:

@@ -3,7 +3,7 @@ import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/helper/go_router.dart';
 
 void main() {
-  FunmapMgr();
+  FunmapMgr().configure();
   runApp(const MyApp());
 }
 

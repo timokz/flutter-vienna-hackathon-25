@@ -23,21 +23,6 @@ class EndpointQuote extends _i1.EndpointRef {
   @override
   String get name => 'quote';
 
-  _i2.Future<void> updateQuote(_i3.Quote quote) =>
-      caller.callServerEndpoint<void>(
-        'quote',
-        'updateQuote',
-        {'quote': quote},
-      );
-
-  _i2.Stream<_i3.Quote> quoteUpdates() =>
-      caller.callStreamingServerEndpoint<_i2.Stream<_i3.Quote>, _i3.Quote>(
-        'quote',
-        'quoteUpdates',
-        {},
-        {},
-      );
-
   _i2.Future<_i3.Quote> createQuote(_i4.CreateQuoteRequest req) =>
       caller.callServerEndpoint<_i3.Quote>(
         'quote',
@@ -45,18 +30,18 @@ class EndpointQuote extends _i1.EndpointRef {
         {'req': req},
       );
 
-  _i2.Future<_i3.Quote> getQuoteById(int id) =>
-      caller.callServerEndpoint<_i3.Quote>(
+  _i2.Future<void> updateQuote(_i3.Quote quote) =>
+      caller.callServerEndpoint<void>(
         'quote',
-        'getQuoteById',
-        {'id': id},
+        'updateQuote',
+        {'quote': quote},
       );
 
-  _i2.Future<List<_i3.Quote>> getAllQuotes() =>
+  _i2.Future<List<_i3.Quote>> getAllQuotes({required int limit}) =>
       caller.callServerEndpoint<List<_i3.Quote>>(
         'quote',
         'getAllQuotes',
-        {},
+        {'limit': limit},
       );
 }
 

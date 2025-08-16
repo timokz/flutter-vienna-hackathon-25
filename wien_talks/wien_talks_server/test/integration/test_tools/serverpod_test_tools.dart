@@ -130,64 +130,6 @@ class _QuoteEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<void> updateQuote(
-    _i1.TestSessionBuilder sessionBuilder,
-    _i4.Quote quote,
-  ) async {
-    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'quote',
-        method: 'updateQuote',
-      );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'quote',
-          methodName: 'updateQuote',
-          parameters: _i1.testObjectToJson({'quote': quote}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<void>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _i3.Stream<_i4.Quote> quoteUpdates(_i1.TestSessionBuilder sessionBuilder) {
-    var _localTestStreamManager = _i1.TestStreamManager<_i4.Quote>();
-    _i1.callStreamFunctionAndHandleExceptions(
-      () async {
-        var _localUniqueSession =
-            (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-          endpoint: 'quote',
-          method: 'quoteUpdates',
-        );
-        var _localCallContext =
-            await _endpointDispatch.getMethodStreamCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'quote',
-          methodName: 'quoteUpdates',
-          arguments: {},
-          requestedInputStreams: [],
-          serializationManager: _serializationManager,
-        );
-        await _localTestStreamManager.callStreamMethod(
-          _localCallContext,
-          _localUniqueSession,
-          {},
-        );
-      },
-      _localTestStreamManager.outputStreamController,
-    );
-    return _localTestStreamManager.outputStreamController.stream;
-  }
-
   _i3.Future<_i4.Quote> createQuote(
     _i1.TestSessionBuilder sessionBuilder,
     _i5.CreateQuoteRequest req,
@@ -217,28 +159,28 @@ class _QuoteEndpoint {
     });
   }
 
-  _i3.Future<_i4.Quote> getQuoteById(
+  _i3.Future<void> updateQuote(
     _i1.TestSessionBuilder sessionBuilder,
-    int id,
+    _i4.Quote quote,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'quote',
-        method: 'getQuoteById',
+        method: 'updateQuote',
       );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'quote',
-          methodName: 'getQuoteById',
-          parameters: _i1.testObjectToJson({'id': id}),
+          methodName: 'updateQuote',
+          parameters: _i1.testObjectToJson({'quote': quote}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i4.Quote>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -247,7 +189,9 @@ class _QuoteEndpoint {
   }
 
   _i3.Future<List<_i4.Quote>> getAllQuotes(
-      _i1.TestSessionBuilder sessionBuilder) async {
+    _i1.TestSessionBuilder sessionBuilder, {
+    required int limit,
+  }) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
@@ -259,7 +203,7 @@ class _QuoteEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'quote',
           methodName: 'getAllQuotes',
-          parameters: _i1.testObjectToJson({}),
+          parameters: _i1.testObjectToJson({'limit': limit}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
