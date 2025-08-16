@@ -10,54 +10,23 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../greeting_endpoint.dart' as _i2;
-import '../quotes/quotes_endpoint.dart' as _i3;
-import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i4;
+import '../quotes/quotes_endpoint.dart' as _i2;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i3;
 import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
-    as _i5;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
+    as _i4;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'greeting': _i2.GreetingEndpoint()
-        ..initialize(
-          server,
-          'greeting',
-          null,
-        ),
-      'quote': _i3.QuoteEndpoint()
+      'quote': _i2.QuoteEndpoint()
         ..initialize(
           server,
           'quote',
           null,
-        ),
-    };
-    connectors['greeting'] = _i1.EndpointConnector(
-      name: 'greeting',
-      endpoint: endpoints['greeting']!,
-      methodConnectors: {
-        'hello': _i1.MethodConnector(
-          name: 'hello',
-          params: {
-            'name': _i1.ParameterDescription(
-              name: 'name',
-              type: _i1.getType<String>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['greeting'] as _i2.GreetingEndpoint).hello(
-            session,
-            params['name'],
-          ),
         )
-      },
-    );
+    };
     connectors['quote'] = _i1.EndpointConnector(
       name: 'quote',
       endpoint: endpoints['quote']!,
@@ -67,7 +36,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'quote': _i1.ParameterDescription(
               name: 'quote',
-              type: _i1.getType<_i4.Quote>(),
+              type: _i1.getType<_i3.Quote>(),
               nullable: false,
             )
           },
@@ -75,7 +44,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).updateQuote(
+              (endpoints['quote'] as _i2.QuoteEndpoint).updateQuote(
             session,
             params['quote'],
           ),
@@ -85,7 +54,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'req': _i1.ParameterDescription(
               name: 'req',
-              type: _i1.getType<_i5.CreateQuoteRequest>(),
+              type: _i1.getType<_i4.CreateQuoteRequest>(),
               nullable: false,
             )
           },
@@ -93,7 +62,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).createQuote(
+              (endpoints['quote'] as _i2.QuoteEndpoint).createQuote(
             session,
             params['req'],
           ),
@@ -111,7 +80,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).getQuoteById(
+              (endpoints['quote'] as _i2.QuoteEndpoint).getQuoteById(
             session,
             params['id'],
           ),
@@ -123,7 +92,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).getAllQuotes(session),
+              (endpoints['quote'] as _i2.QuoteEndpoint).getAllQuotes(session),
         ),
         'quoteUpdates': _i1.MethodStreamConnector(
           name: 'quoteUpdates',
@@ -135,10 +104,10 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
             Map<String, Stream> streamParams,
           ) =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).quoteUpdates(session),
+              (endpoints['quote'] as _i2.QuoteEndpoint).quoteUpdates(session),
         ),
       },
     );
-    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
   }
 }

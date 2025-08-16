@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:serverpod/serverpod.dart';
 import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/quotes/quote_util.dart';
@@ -21,21 +23,14 @@ class QuoteEndpoint extends Endpoint {
 
   Future<Quote> createQuote(Session session, CreateQuoteRequest req) async {
     final authInfo = await session.authenticated;
-    final userId = authInfo?.userId;
-
-    if (userId == null) {
-      throw Exception('Not signed in');
-    }
+    final userId = Random().nextInt(100);
 
     String text = validateQuote(req);
 
     final quote = Quote(
-      id: 0,
       userId: userId,
       text: text,
-      authorName: req.authorName?.trim().isEmpty == true
-          ? null
-          : req.authorName!.trim(),
+      authorName: req.authorName,
       lat: req.lat,
       long: req.lng,
       createdAt: DateTime.now().toUtc(),

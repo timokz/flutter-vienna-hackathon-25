@@ -14,10 +14,9 @@
 import 'package:serverpod_test/serverpod_test.dart' as _i1;
 import 'package:serverpod/serverpod.dart' as _i2;
 import 'dart:async' as _i3;
-import 'package:wien_talks_server/src/generated/greeting.dart' as _i4;
-import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i5;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i4;
 import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
-    as _i6;
+    as _i5;
 import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -104,8 +103,6 @@ void withServerpod(
 }
 
 class TestEndpoints {
-  late final _GreetingEndpoint greeting;
-
   late final _QuoteEndpoint quote;
 }
 
@@ -116,54 +113,10 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.SerializationManager serializationManager,
     _i2.EndpointDispatch endpoints,
   ) {
-    greeting = _GreetingEndpoint(
-      endpoints,
-      serializationManager,
-    );
     quote = _QuoteEndpoint(
       endpoints,
       serializationManager,
     );
-  }
-}
-
-class _GreetingEndpoint {
-  _GreetingEndpoint(
-    this._endpointDispatch,
-    this._serializationManager,
-  );
-
-  final _i2.EndpointDispatch _endpointDispatch;
-
-  final _i2.SerializationManager _serializationManager;
-
-  _i3.Future<_i4.Greeting> hello(
-    _i1.TestSessionBuilder sessionBuilder,
-    String name,
-  ) async {
-    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'greeting',
-        method: 'hello',
-      );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'greeting',
-          methodName: 'hello',
-          parameters: _i1.testObjectToJson({'name': name}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<_i4.Greeting>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
   }
 }
 
@@ -179,7 +132,7 @@ class _QuoteEndpoint {
 
   _i3.Future<void> updateQuote(
     _i1.TestSessionBuilder sessionBuilder,
-    _i5.Quote quote,
+    _i4.Quote quote,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -206,8 +159,8 @@ class _QuoteEndpoint {
     });
   }
 
-  _i3.Stream<_i5.Quote> quoteUpdates(_i1.TestSessionBuilder sessionBuilder) {
-    var _localTestStreamManager = _i1.TestStreamManager<_i5.Quote>();
+  _i3.Stream<_i4.Quote> quoteUpdates(_i1.TestSessionBuilder sessionBuilder) {
+    var _localTestStreamManager = _i1.TestStreamManager<_i4.Quote>();
     _i1.callStreamFunctionAndHandleExceptions(
       () async {
         var _localUniqueSession =
@@ -235,9 +188,9 @@ class _QuoteEndpoint {
     return _localTestStreamManager.outputStreamController.stream;
   }
 
-  _i3.Future<_i5.Quote> createQuote(
+  _i3.Future<_i4.Quote> createQuote(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.CreateQuoteRequest req,
+    _i5.CreateQuoteRequest req,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -256,7 +209,7 @@ class _QuoteEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i5.Quote>);
+        ) as _i3.Future<_i4.Quote>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -264,7 +217,7 @@ class _QuoteEndpoint {
     });
   }
 
-  _i3.Future<_i5.Quote> getQuoteById(
+  _i3.Future<_i4.Quote> getQuoteById(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -285,7 +238,7 @@ class _QuoteEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i5.Quote>);
+        ) as _i3.Future<_i4.Quote>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -293,7 +246,7 @@ class _QuoteEndpoint {
     });
   }
 
-  _i3.Future<List<_i5.Quote>> getAllQuotes(
+  _i3.Future<List<_i4.Quote>> getAllQuotes(
       _i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -312,7 +265,7 @@ class _QuoteEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i5.Quote>>);
+        ) as _i3.Future<List<_i4.Quote>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

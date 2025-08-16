@@ -12,11 +12,9 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
-import 'greeting.dart' as _i4;
-import 'quotes/create_quote.dart' as _i5;
-import 'quotes/quote.dart' as _i6;
-import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i7;
-export 'greeting.dart';
+import 'quotes/create_quote.dart' as _i4;
+import 'quotes/quote.dart' as _i5;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i6;
 export 'quotes/create_quote.dart';
 export 'quotes/quote.dart';
 
@@ -130,23 +128,17 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i4.Greeting) {
-      return _i4.Greeting.fromJson(data) as T;
+    if (t == _i4.CreateQuoteRequest) {
+      return _i4.CreateQuoteRequest.fromJson(data) as T;
     }
-    if (t == _i5.CreateQuoteRequest) {
-      return _i5.CreateQuoteRequest.fromJson(data) as T;
+    if (t == _i5.Quote) {
+      return _i5.Quote.fromJson(data) as T;
     }
-    if (t == _i6.Quote) {
-      return _i6.Quote.fromJson(data) as T;
+    if (t == _i1.getType<_i4.CreateQuoteRequest?>()) {
+      return (data != null ? _i4.CreateQuoteRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Greeting?>()) {
-      return (data != null ? _i4.Greeting.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i5.CreateQuoteRequest?>()) {
-      return (data != null ? _i5.CreateQuoteRequest.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i6.Quote?>()) {
-      return (data != null ? _i6.Quote.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.Quote?>()) {
+      return (data != null ? _i5.Quote.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<String>?>()) {
       return (data != null
@@ -158,8 +150,8 @@ class Protocol extends _i1.SerializationManagerServer {
           ? (data as List).map((e) => deserialize<String>(e)).toList()
           : null) as T;
     }
-    if (t == List<_i7.Quote>) {
-      return (data as List).map((e) => deserialize<_i7.Quote>(e)).toList() as T;
+    if (t == List<_i6.Quote>) {
+      return (data as List).map((e) => deserialize<_i6.Quote>(e)).toList() as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -174,13 +166,10 @@ class Protocol extends _i1.SerializationManagerServer {
   String? getClassNameForObject(Object? data) {
     String? className = super.getClassNameForObject(data);
     if (className != null) return className;
-    if (data is _i4.Greeting) {
-      return 'Greeting';
-    }
-    if (data is _i5.CreateQuoteRequest) {
+    if (data is _i4.CreateQuoteRequest) {
       return 'CreateQuoteRequest';
     }
-    if (data is _i6.Quote) {
+    if (data is _i5.Quote) {
       return 'Quote';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -200,14 +189,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
     }
-    if (dataClassName == 'Greeting') {
-      return deserialize<_i4.Greeting>(data['data']);
-    }
     if (dataClassName == 'CreateQuoteRequest') {
-      return deserialize<_i5.CreateQuoteRequest>(data['data']);
+      return deserialize<_i4.CreateQuoteRequest>(data['data']);
     }
     if (dataClassName == 'Quote') {
-      return deserialize<_i6.Quote>(data['data']);
+      return deserialize<_i5.Quote>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -235,8 +221,8 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i6.Quote:
-        return _i6.Quote.t;
+      case _i5.Quote:
+        return _i5.Quote.t;
     }
     return null;
   }

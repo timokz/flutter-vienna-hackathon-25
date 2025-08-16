@@ -1,10 +1,8 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
-import 'package:wien_talks_server/src/birthday_reminder.dart';
 import 'package:wien_talks_server/src/web/routes/root.dart';
 
 import 'src/generated/endpoints.dart';
-import 'src/generated/protocol.dart';
 
 // This is the starting point of your Serverpod server. In most cases, you will
 // only need to make additions to this file if you add future calls,  are
@@ -14,7 +12,7 @@ void run(List<String> args) async {
   // Initialize Serverpod and connect it with your generated code.
   final pod = Serverpod(
     args,
-    Protocol(),
+    auth.Protocol(),
     Endpoints(),
     authenticationHandler: auth.authenticationHandler,
   );
@@ -38,28 +36,8 @@ void run(List<String> args) async {
   // the background. Their schedule is persisted to the database, so you will
   // not lose them if the server is restarted.
 
-  pod.registerFutureCall(
-    BirthdayReminder(),
-    FutureCallNames.birthdayReminder.name,
-  );
-
   // You can schedule future calls for a later time during startup. But you can
   // also schedule them in any endpoint or webroute through the session object.
   // there is also [futureCallAtTime] if you want to schedule a future call at a
   // specific time.
-  await pod.futureCallWithDelay(
-    FutureCallNames.birthdayReminder.name,
-    Greeting(
-      message: 'Hello!',
-      author: 'Serverpod Server',
-      timestamp: DateTime.now(),
-    ),
-    Duration(seconds: 5),
-  );
 }
-
-/// Names of all future calls in the server.
-///
-/// This is better than using a string literal, as it will reduce the risk of
-/// typos and make it easier to refactor the code.
-enum FutureCallNames { birthdayReminder }
