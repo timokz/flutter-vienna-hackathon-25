@@ -1,0 +1,14 @@
+class: Quote
+fields:
+  id: int
+  userId: int
+  text: String
+  authorName: String?
+  lat: double
+  lng: double
+  geohash: String
+  createdAt: DateTime
+  visibility: int
+  upvotes: int
+  downvotes: int
+  tags: List<String>?
