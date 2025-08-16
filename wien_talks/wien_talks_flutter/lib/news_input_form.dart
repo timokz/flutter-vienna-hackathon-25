@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:location/location.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
+import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/location_mgr.dart';
-import 'package:wien_talks_flutter/main.dart';
 import 'package:wien_talks_flutter/widgets/error_snackbar.dart';
 
 class NewsInputForm extends StatefulWidget {
@@ -37,7 +37,7 @@ class _NewsInputFormState extends State<NewsInputForm> {
           lat: LocationMgr().lastLocation!.latitude!,
           lng: LocationMgr().lastLocation!.longitude!,
         );
-        await client.quote.createQuote(newsData);
+        await FunmapMgr().client.quote.createQuote(newsData);
         _newsController.clear();
       } catch (error) {
         if (mounted) {
