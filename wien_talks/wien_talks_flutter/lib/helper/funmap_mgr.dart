@@ -22,9 +22,14 @@ class FunmapMgr {
     // address by running `ipconfig` on Windows or `ifconfig` on Mac/Linux.
     // You can set the variable when running or building your app like this:
     // E.g. `flutter run --dart-define=SERVER_URL=https://api.example.com/`
-    const serverUrlFromEnv = String.fromEnvironment('SERVER_URL');
-    final serverUrl = serverUrlFromEnv.isEmpty ? 'http://localhost:8080/' : serverUrlFromEnv;
 
-    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))..connectivityMonitor = FlutterConnectivityMonitor();
+    const serverUrlFromEnv = String.fromEnvironment('SERVER_URL');
+    final serverUrl =
+        serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
+
+    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))
+      ..connectivityMonitor = FlutterConnectivityMonitor();
+
+    client.openStreamingConnection();
   }
 }

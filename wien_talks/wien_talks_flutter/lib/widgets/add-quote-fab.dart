@@ -10,7 +10,8 @@ class AddQuoteFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(onPressed: () {
-      FunmapMgr().client.quote.createQuote(CreateQuoteRequest(text: 'Quote Text', lat: 22, lng: 140));
+      FunmapMgr().client.quote.createQuote(
+          CreateQuoteRequest(text: 'Quote Text', lat: 22, lng: 140));
     });
   }
 }
