@@ -1,6 +1,7 @@
 # Build stage
 FROM dart:3.5.0 AS build
 WORKDIR /app
+# TODO: more fine-grained building
 COPY . .
 
 # Install dependencies and compile the server executable
@@ -23,6 +24,7 @@ COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server server
 
 # Copy configuration files and resources
+# TODO: don't copy entire config dir, only what's needed
 COPY --from=build /app/config/ config/
 COPY --from=build /app/web/ web/
 COPY --from=build /app/migrations/ migrations/
