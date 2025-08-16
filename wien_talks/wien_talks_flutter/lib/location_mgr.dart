@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:mapsforge_flutter/core.dart';
@@ -34,7 +35,7 @@ class LocationMgr {
 
   final SymbolCache symbolCache = FileSymbolCache();
 
-  final JobRenderer jobRenderer = MapOnlineRenderer();
+  final JobRenderer jobRenderer = kIsWeb ? MapOnlineRendererWeb() : MapOnlineRenderer();
 
   final MarkerByItemDataStore markerDataStore = MarkerByItemDataStore();
 

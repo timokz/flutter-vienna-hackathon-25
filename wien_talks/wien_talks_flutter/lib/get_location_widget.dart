@@ -25,7 +25,7 @@ class _GetLocationWidgetState extends State<GetLocationWidget> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             case ConnectionState.active:
             case ConnectionState.done:
               {
