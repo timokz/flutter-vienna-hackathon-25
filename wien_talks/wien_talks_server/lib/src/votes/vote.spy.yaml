@@ -1,7 +1,0 @@
-class: Vote
-table: vote
-fields:
-  userId: int
-  createdAt: DateTime
-  quote: Quote
-  upvote: bool

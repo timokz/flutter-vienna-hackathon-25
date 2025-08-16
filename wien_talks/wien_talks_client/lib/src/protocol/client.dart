@@ -11,12 +11,34 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:wien_talks_client/src/protocol/quotes/quote.dart' as _i3;
-import 'package:wien_talks_client/src/protocol/quotes/create_quote.dart' as _i4;
-import 'package:wien_talks_client/src/protocol/votes/vote.dart' as _i5;
-import 'package:wien_talks_client/src/protocol/votes/vote_request.dart' as _i6;
+import 'package:wien_talks_client/src/protocol/health.dart' as _i3;
+import 'package:wien_talks_client/src/protocol/quote.dart' as _i4;
+import 'package:wien_talks_client/src/protocol/create_quote.dart' as _i5;
+import 'package:wien_talks_client/src/protocol/vote.dart' as _i6;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
 import 'protocol.dart' as _i8;
+
+/// {@category Endpoint}
+class EndpointHealth extends _i1.EndpointRef {
+  EndpointHealth(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'health';
+
+  _i2.Future<_i3.Health> ping({String? note}) =>
+      caller.callServerEndpoint<_i3.Health>(
+        'health',
+        'ping',
+        {'note': note},
+      );
+
+  _i2.Future<List<_i3.Health>> all() =>
+      caller.callServerEndpoint<List<_i3.Health>>(
+        'health',
+        'all',
+        {},
+      );
+}
 
 /// {@category Endpoint}
 class EndpointQuote extends _i1.EndpointRef {
@@ -25,22 +47,28 @@ class EndpointQuote extends _i1.EndpointRef {
   @override
   String get name => 'quote';
 
-  _i2.Future<_i3.Quote> createQuote(_i4.CreateQuoteRequest req) =>
-      caller.callServerEndpoint<_i3.Quote>(
+  _i2.Future<String> dbPing() => caller.callServerEndpoint<String>(
+        'quote',
+        'dbPing',
+        {},
+      );
+
+  _i2.Future<_i4.Quote> createQuote(_i5.CreateQuoteRequest req) =>
+      caller.callServerEndpoint<_i4.Quote>(
         'quote',
         'createQuote',
         {'req': req},
       );
 
-  _i2.Future<void> updateQuote(_i3.Quote quote) =>
+  _i2.Future<void> updateQuote(_i4.Quote quote) =>
       caller.callServerEndpoint<void>(
         'quote',
         'updateQuote',
         {'quote': quote},
       );
 
-  _i2.Future<List<_i3.Quote>> getAllQuotes() =>
-      caller.callServerEndpoint<List<_i3.Quote>>(
+  _i2.Future<List<_i4.Quote>> getAllQuotes() =>
+      caller.callServerEndpoint<List<_i4.Quote>>(
         'quote',
         'getAllQuotes',
         {},
@@ -54,17 +82,22 @@ class EndpointVotes extends _i1.EndpointRef {
   @override
   String get name => 'votes';
 
-  _i2.Future<_i5.Vote> postVote(_i6.VoteRequest voteRequest) =>
-      caller.callServerEndpoint<_i5.Vote>(
-        'votes',
-        'postVote',
-        {'voteRequest': voteRequest},
-      );
-
-  _i2.Future<List<_i5.Vote>> getAllVotes() =>
-      caller.callServerEndpoint<List<_i5.Vote>>(
+  _i2.Future<List<_i6.Vote>> getAllVotes() =>
+      caller.callServerEndpoint<List<_i6.Vote>>(
         'votes',
         'getAllVotes',
+        {},
+      );
+
+  _i2.Future<String> createVote() => caller.callServerEndpoint<String>(
+        'votes',
+        'createVote',
+        {},
+      );
+
+  _i2.Future<String> sayHello() => caller.callServerEndpoint<String>(
+        'votes',
+        'sayHello',
         {},
       );
 }
@@ -103,10 +136,13 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
+    health = EndpointHealth(this);
     quote = EndpointQuote(this);
     votes = EndpointVotes(this);
     modules = Modules(this);
   }
+
+  late final EndpointHealth health;
 
   late final EndpointQuote quote;
 
@@ -116,6 +152,7 @@ class Client extends _i1.ServerpodClientShared {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'health': health,
         'quote': quote,
         'votes': votes,
       };

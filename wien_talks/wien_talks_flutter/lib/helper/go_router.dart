@@ -7,7 +7,7 @@ import 'package:wien_talks_flutter/news_screen.dart';
 
 final router = GoRouter(
   redirect: (context, state) {
-    final loggedIn = AuthService.user != null;
+    final loggedIn = true; // AuthService.user != null;
     final atLogin = state.matchedLocation == '/login';
     if (!loggedIn && !atLogin) return '/login';
     if (loggedIn && atLogin) return '/';

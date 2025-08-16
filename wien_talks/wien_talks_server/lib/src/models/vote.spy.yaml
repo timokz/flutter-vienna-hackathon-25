@@ -1,0 +1,7 @@
+class: Vote
+table: vote
+fields:
+  userId: int
+  createdAt: DateTime
+  quoteId: int
+  upvote: bool

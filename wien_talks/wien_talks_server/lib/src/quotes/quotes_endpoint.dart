@@ -8,6 +8,13 @@ import 'package:wien_talks_server/src/quotes/quote_util.dart';
 class QuoteEndpoint extends Endpoint {
   static const _channelQuoteUpdates = 'quote-updates';
 
+  Future<String> dbPing(Session session) async {
+    await session.db.unsafeQuery('SELECT 1;'); // connectivity
+    await session.db
+        .unsafeQuery('SELECT 1 FROM public.quote LIMIT 1;'); // table visible
+    return 'ok';
+  }
+
   Future<Quote> createQuote(Session session, CreateQuoteRequest req) async {
     final authInfo = await session.authenticated;
     final userId = authInfo?.userId;
@@ -44,8 +51,8 @@ class QuoteEndpoint extends Endpoint {
     final quoteList = await Quote.db.find(
       session,
       // where: (t) => t.visibility.equals(0),
-      // orderBy: (t) => t.createdAt,
-      // orderDescending: true,
+      orderBy: (t) => t.createdAt,
+      orderDescending: true,
     );
 
     for (var element in quoteList) {

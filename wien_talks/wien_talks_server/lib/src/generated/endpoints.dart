@@ -10,41 +10,88 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../quotes/quotes_endpoint.dart' as _i2;
-import '../votes/votes_endpoint.dart' as _i3;
-import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
-    as _i4;
-import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i5;
-import 'package:wien_talks_server/src/generated/votes/vote_request.dart' as _i6;
+import '../health/health-endpoint.dart' as _i2;
+import '../quotes/quotes_endpoint.dart' as _i3;
+import '../votes/votes_endpoint.dart' as _i4;
+import 'package:wien_talks_server/src/generated/create_quote.dart' as _i5;
+import 'package:wien_talks_server/src/generated/quote.dart' as _i6;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'quote': _i2.QuoteEndpoint()
+      'health': _i2.HealthEndpoint()
+        ..initialize(
+          server,
+          'health',
+          null,
+        ),
+      'quote': _i3.QuoteEndpoint()
         ..initialize(
           server,
           'quote',
           null,
         ),
-      'votes': _i3.VotesEndpoint()
+      'votes': _i4.VotesEndpoint()
         ..initialize(
           server,
           'votes',
           null,
         ),
     };
+    connectors['health'] = _i1.EndpointConnector(
+      name: 'health',
+      endpoint: endpoints['health']!,
+      methodConnectors: {
+        'ping': _i1.MethodConnector(
+          name: 'ping',
+          params: {
+            'note': _i1.ParameterDescription(
+              name: 'note',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['health'] as _i2.HealthEndpoint).ping(
+            session,
+            note: params['note'],
+          ),
+        ),
+        'all': _i1.MethodConnector(
+          name: 'all',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['health'] as _i2.HealthEndpoint).all(session),
+        ),
+      },
+    );
     connectors['quote'] = _i1.EndpointConnector(
       name: 'quote',
       endpoint: endpoints['quote']!,
       methodConnectors: {
+        'dbPing': _i1.MethodConnector(
+          name: 'dbPing',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).dbPing(session),
+        ),
         'createQuote': _i1.MethodConnector(
           name: 'createQuote',
           params: {
             'req': _i1.ParameterDescription(
               name: 'req',
-              type: _i1.getType<_i4.CreateQuoteRequest>(),
+              type: _i1.getType<_i5.CreateQuoteRequest>(),
               nullable: false,
             )
           },
@@ -52,7 +99,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).createQuote(
+              (endpoints['quote'] as _i3.QuoteEndpoint).createQuote(
             session,
             params['req'],
           ),
@@ -62,7 +109,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'quote': _i1.ParameterDescription(
               name: 'quote',
-              type: _i1.getType<_i5.Quote>(),
+              type: _i1.getType<_i6.Quote>(),
               nullable: false,
             )
           },
@@ -70,7 +117,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).updateQuote(
+              (endpoints['quote'] as _i3.QuoteEndpoint).updateQuote(
             session,
             params['quote'],
           ),
@@ -82,7 +129,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).getAllQuotes(session),
+              (endpoints['quote'] as _i3.QuoteEndpoint).getAllQuotes(session),
         ),
       },
     );
@@ -90,24 +137,6 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'votes',
       endpoint: endpoints['votes']!,
       methodConnectors: {
-        'postVote': _i1.MethodConnector(
-          name: 'postVote',
-          params: {
-            'voteRequest': _i1.ParameterDescription(
-              name: 'voteRequest',
-              type: _i1.getType<_i6.VoteRequest>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['votes'] as _i3.VotesEndpoint).postVote(
-            session,
-            params['voteRequest'],
-          ),
-        ),
         'getAllVotes': _i1.MethodConnector(
           name: 'getAllVotes',
           params: {},
@@ -115,7 +144,25 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['votes'] as _i3.VotesEndpoint).getAllVotes(session),
+              (endpoints['votes'] as _i4.VotesEndpoint).getAllVotes(session),
+        ),
+        'createVote': _i1.MethodConnector(
+          name: 'createVote',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['votes'] as _i4.VotesEndpoint).createVote(session),
+        ),
+        'sayHello': _i1.MethodConnector(
+          name: 'sayHello',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['votes'] as _i4.VotesEndpoint).sayHello(session),
         ),
       },
     );

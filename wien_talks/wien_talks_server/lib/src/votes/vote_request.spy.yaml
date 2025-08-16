@@ -1,6 +1,0 @@
-class: VoteRequest
-table: vote_request
-fields:
-  userId: int
-  quote: Quote
-  upvote: bool

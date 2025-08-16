@@ -1,7 +1,12 @@
+health:
+  - ping:
+  - all:
 quote:
+  - dbPing:
   - createQuote:
   - updateQuote:
   - getAllQuotes:
 votes:
-  - postVote:
   - getAllVotes:
+  - createVote:
+  - sayHello:
