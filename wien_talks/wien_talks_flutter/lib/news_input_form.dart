@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:location/location.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
-import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/location_mgr.dart';
 import 'package:wien_talks_flutter/widgets/error_snackbar.dart';
 
+typedef OnSubmit = Future<void> Function(CreateQuoteRequest request);
+
 class NewsInputForm extends StatefulWidget {
-  const NewsInputForm({super.key});
+  final OnSubmit onSubmit;
+
+  const NewsInputForm({super.key, required this.onSubmit});
 
   @override
   _NewsInputFormState createState() => _NewsInputFormState();
@@ -30,17 +33,16 @@ class _NewsInputFormState extends State<NewsInputForm> {
       return;
     }
     if (_formKey.currentState!.validate()) {
+      final newsData = CreateQuoteRequest(
+        text: _newsController.text.trim(),
+        lat: LocationMgr().lastLocation!.latitude!,
+        lng: LocationMgr().lastLocation!.longitude!,
+      );
       var handler = context.loaderOverlay..show();
       try {
-        final newsData = CreateQuoteRequest(
-          text: _newsController.text.trim(),
-          lat: LocationMgr().lastLocation!.latitude!,
-          lng: LocationMgr().lastLocation!.longitude!,
-        );
-        await FunmapMgr().client.quote.createQuote(newsData);
-        _newsController.clear();
+        await widget.onSubmit(newsData);
       } catch (error) {
-        if (mounted) {
+        if (context.mounted) {
           ErrorSnackbar().show(context, error.toString());
         }
       } finally {

@@ -4,8 +4,10 @@ import 'package:wien_talks_flutter/show_latest_news_widget.dart';
 import 'package:wien_talks_flutter/widgets/intro_text_widget.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 
-class NewsScreen extends StatelessWidget {
-  const NewsScreen({
+import 'carousel_widget.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
     super.key,
   });
 
@@ -21,11 +23,21 @@ class NewsScreen extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  context.pushNamed("create_event");
-                },
-                child: Text("Submit your own event")),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        context.pushNamed("create_event");
+                      },
+                      child: Text("Submit your own event")),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CarouselWidget(),
           ],
         ),
       ),
