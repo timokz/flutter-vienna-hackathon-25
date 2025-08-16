@@ -1,6 +1,8 @@
 greeting:
   - hello:
 quote:
+  - updateQuote:
+  - quoteUpdates:
   - createQuote:
   - getQuoteById:
   - getAllQuotes:

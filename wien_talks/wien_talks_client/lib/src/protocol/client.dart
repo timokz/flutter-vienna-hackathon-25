@@ -42,6 +42,21 @@ class EndpointQuote extends _i1.EndpointRef {
   @override
   String get name => 'quote';
 
+  _i2.Future<void> updateQuote(_i4.Quote quote) =>
+      caller.callServerEndpoint<void>(
+        'quote',
+        'updateQuote',
+        {'quote': quote},
+      );
+
+  _i2.Stream<_i4.Quote> quoteUpdates() =>
+      caller.callStreamingServerEndpoint<_i2.Stream<_i4.Quote>, _i4.Quote>(
+        'quote',
+        'quoteUpdates',
+        {},
+        {},
+      );
+
   _i2.Future<_i4.Quote> createQuote(_i5.CreateQuoteRequest req) =>
       caller.callServerEndpoint<_i4.Quote>(
         'quote',

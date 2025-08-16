@@ -12,9 +12,10 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../greeting_endpoint.dart' as _i2;
 import '../quotes/quotes_endpoint.dart' as _i3;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i4;
 import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
-    as _i4;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i5;
+    as _i5;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -61,12 +62,30 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'quote',
       endpoint: endpoints['quote']!,
       methodConnectors: {
+        'updateQuote': _i1.MethodConnector(
+          name: 'updateQuote',
+          params: {
+            'quote': _i1.ParameterDescription(
+              name: 'quote',
+              type: _i1.getType<_i4.Quote>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).updateQuote(
+            session,
+            params['quote'],
+          ),
+        ),
         'createQuote': _i1.MethodConnector(
           name: 'createQuote',
           params: {
             'req': _i1.ParameterDescription(
               name: 'req',
-              type: _i1.getType<_i4.CreateQuoteRequest>(),
+              type: _i1.getType<_i5.CreateQuoteRequest>(),
               nullable: false,
             )
           },
@@ -106,8 +125,20 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['quote'] as _i3.QuoteEndpoint).getAllQuotes(session),
         ),
+        'quoteUpdates': _i1.MethodStreamConnector(
+          name: 'quoteUpdates',
+          params: {},
+          streamParams: {},
+          returnType: _i1.MethodStreamReturnType.streamType,
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+            Map<String, Stream> streamParams,
+          ) =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).quoteUpdates(session),
+        ),
       },
     );
-    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
   }
 }

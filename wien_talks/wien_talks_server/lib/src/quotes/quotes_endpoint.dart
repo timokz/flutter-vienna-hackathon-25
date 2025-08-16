@@ -1,6 +1,6 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:wien_talks_server/src/generated/protocol.dart';
-import 'package:wien_talks_server/src/quotes/quote_controller.dart';
+import 'package:wien_talks_server/src/quotes/quote_util.dart';
 
 class QuoteEndpoint extends Endpoint {
   static const _channelQuoteUpdates = 'quote-updates';
