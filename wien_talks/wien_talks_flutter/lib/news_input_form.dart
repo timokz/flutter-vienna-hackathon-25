@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wien_talks_flutter/models/news_event_model.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:location/location.dart';
+import 'package:wien_talks_client/wien_talks_client.dart';
+import 'package:wien_talks_flutter/location_mgr.dart';
+import 'package:wien_talks_flutter/main.dart';
+import 'package:wien_talks_flutter/widgets/error_snackbar.dart';
 
 class NewsInputForm extends StatefulWidget {
-  final Function(NewsEventModel) onSubmit;
-
-  const NewsInputForm({Key? key, required this.onSubmit}) : super(key: key);
+  const NewsInputForm({super.key});
 
   @override
   _NewsInputFormState createState() => _NewsInputFormState();
@@ -20,16 +23,29 @@ class _NewsInputFormState extends State<NewsInputForm> {
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitForm() async {
+    LocationData? locationData = LocationMgr().lastLocation;
+    if (locationData == null || locationData.latitude == null || locationData.longitude == null) {
+      ErrorSnackbar().show(context, "No location available, please retry later");
+      return;
+    }
     if (_formKey.currentState!.validate()) {
-      final newsData = NewsEventModel(
-        content: _newsController.text.trim(),
-        timestamp: DateTime.now(),
-        latitude: 0.0,
-        longitude: 0.0,
-      );
-      widget.onSubmit(newsData);
-      _newsController.clear();
+      var handler = context.loaderOverlay..show();
+      try {
+        final newsData = CreateQuoteRequest(
+          text: _newsController.text.trim(),
+          lat: LocationMgr().lastLocation!.latitude!,
+          lng: LocationMgr().lastLocation!.longitude!,
+        );
+        await client.quote.createQuote(newsData);
+        _newsController.clear();
+      } catch (error) {
+        if (mounted) {
+          ErrorSnackbar().show(context, error.toString());
+        }
+      } finally {
+        handler.hide();
+      }
     }
   }
 

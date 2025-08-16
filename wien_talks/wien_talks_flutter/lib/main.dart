@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
-import 'package:wien_talks_flutter/go_router.dart';
+import 'package:wien_talks_flutter/helper/go_router.dart';
 
 /// Sets up a global client object that can be used to talk to the server from
 /// anywhere in our app. The client is generated from your server code
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Serverpod Demo',
+      title: 'Wien Talks',
       theme: ThemeData(primarySwatch: Colors.blue),
       routerConfig: router,
       //home: NewsScreen(),

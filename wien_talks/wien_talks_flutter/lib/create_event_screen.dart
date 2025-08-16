@@ -15,7 +15,7 @@ class CreateEventScreen extends StatelessWidget {
     return ScreenWidget(
         child: Column(
       children: [
-        NewsInputForm(onSubmit: (newsEventModel) {}),
+        NewsInputForm(),
         StreamBuilder(stream: LocationMgr().stream, builder: (BuildContext context, AsyncSnapshot<LocationData> snapshot) => Text(snapshot.data.toString())),
         Expanded(
           child: GetLocationWidget(

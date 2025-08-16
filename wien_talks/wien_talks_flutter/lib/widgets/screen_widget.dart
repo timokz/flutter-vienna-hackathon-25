@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wien_talks_flutter/widgets/add-quote-fab.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ScreenWidget extends StatelessWidget {
   final Widget child;
@@ -12,11 +12,11 @@ class ScreenWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('News'),
       ),
-      floatingActionButton: AddQuoteFab(),
+//      floatingActionButton: AddQuoteFab(),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: child,
+        child: LoaderOverlay(child: child),
       )),
     );
   }

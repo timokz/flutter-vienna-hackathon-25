@@ -27,6 +27,8 @@ dependencies:
 
   go_router: ^16.1.0
 
+  loader_overlay: ^5.0.0
+
   location: ^8.0.1
 
   mapsforge_flutter: ^3.0.2

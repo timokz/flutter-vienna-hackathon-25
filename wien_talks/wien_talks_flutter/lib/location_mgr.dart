@@ -93,6 +93,7 @@ class LocationMgr {
     iconMarker = null;
     viewModel?.dispose();
     viewModel = null;
+    _lastLocationData = null;
   }
 
   Stream<LocationData> get stream => _subject.stream;
