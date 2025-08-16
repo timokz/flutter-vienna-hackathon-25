@@ -1,29 +1,43 @@
 # wien_talks_server
 
-This is the starting point for your Serverpod server.
+## Local Development Environment
 
-To run your server, you first need to start Postgres and Redis. It's easiest to do with Docker.
+Setting up a local postgres container, run the following:
 
-    docker compose up --build --detach
+```bash
+make local
+```
 
-Then you can start the Serverpod server.
+This will first create an `.env` file with default values and then launch the
+container.
 
-    dart bin/main.dart
+You can then launch the Serverpod server like so:
 
-When you are finished, you can shut down Serverpod with `Ctrl-C`, then stop Postgres and Redis.
+```bash
+dart bin/main.dart
+```
 
-    docker compose stop
+If your database schema isn't initialized yet, you will have to run the
+following:
 
-## Environments & Passwords
+```bash
+dart bin/main.dart --apply-migrations
+```
 
-Note that the password used in your environment files (`.env` for local
-development and `env.d/postgres.env.template` for deployment) must correspond to
-the password in `config/passwords.yaml`.
+See the `Makefile` for all targets.
 
-The `config/passwords.yaml` file must be created manually, for example:
+## Passwords
+
+The password used in your environment files (`.env` for local development and
+`env.d/postgres.env.template` for deployment) must correspond to the password in
+`config/passwords.yaml`.
+
+The `config/passwords.yaml` file must be created manually at the moment; for
+example:
 
 ```yaml
 development:
   database: your-password-here
 ```
+
 
