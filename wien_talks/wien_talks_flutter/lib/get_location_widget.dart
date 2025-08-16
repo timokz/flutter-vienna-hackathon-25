@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:wien_talks_flutter/location_mgr.dart';
 
-class GetLocationWidget extends StatelessWidget {
-  const GetLocationWidget({super.key});
+class GetLocationWidget extends StatefulWidget {
+  final Widget child;
+
+  const GetLocationWidget({super.key, required this.child});
+
+  @override
+  State<GetLocationWidget> createState() => _GetLocationWidgetState();
+}
+
+class _GetLocationWidgetState extends State<GetLocationWidget> {
+  @override
+  void dispose() {
+    LocationMgr().shutdown();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FutureBuilder(
-            future: LocationMgr().startup(),
-            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  {
-                    if (snapshot.hasData) {
-                      // Error occured
-                      return Text(snapshot.data.toString());
-                    } else {
-                      return Text("No data -> OK");
-                    }
-                  }
-                default:
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-                  return Text("OK");
+    return FutureBuilder(
+        future: LocationMgr().startup(),
+        builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return CircularProgressIndicator();
+            case ConnectionState.active:
+            case ConnectionState.done:
+              {
+                if (snapshot.hasData) {
+                  // Error occured
+                  return Text(snapshot.data.toString(), style: TextStyle(color: Colors.red));
+                } else {
+                  return widget.child;
+                }
               }
-            }),
-        StreamBuilder(stream: LocationMgr().stream, builder: (BuildContext context, AsyncSnapshot<LocationData> snapshot) => Text(snapshot.data.toString())),
-      ],
-    );
+          }
+        });
   }
 }

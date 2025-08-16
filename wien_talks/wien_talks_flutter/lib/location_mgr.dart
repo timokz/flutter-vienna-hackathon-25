@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:mapsforge_flutter/core.dart';
+import 'package:mapsforge_flutter/maps.dart';
+import 'package:mapsforge_flutter/marker.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LocationMgr {
-  Location location = Location();
+  final Location location = Location();
 
   bool serviceEnabled = false;
 
@@ -16,14 +20,35 @@ class LocationMgr {
 
   final Subject<LocationData> _subject = PublishSubject<LocationData>();
 
+  final TileBitmapCache bitmapCache = MemoryTileBitmapCache.create();
+
   StreamSubscription? _subscription;
+
+  ViewModel? viewModel;
+
+  late MapModel mapModel;
+
+  IconMarker? iconMarker;
+
+  final DisplayModel displayModel = DisplayModel(maxZoomLevel: 20);
+
+  final SymbolCache symbolCache = FileSymbolCache();
+
+  final JobRenderer jobRenderer = MapOnlineRenderer();
 
   factory LocationMgr() {
     _instance ??= LocationMgr._();
     return _instance!;
   }
 
-  LocationMgr._();
+  LocationMgr._() {
+    mapModel = MapModel(
+      displayModel: displayModel,
+      renderer: jobRenderer,
+      symbolCache: symbolCache,
+      tileBitmapCache: bitmapCache,
+    );
+  }
 
   Future<String?> startup() async {
     serviceEnabled = await location.serviceEnabled();
@@ -41,8 +66,21 @@ class LocationMgr {
         return "No permissions granted";
       }
     }
+    viewModel = ViewModel(displayModel: displayModel);
     _subscription = location.onLocationChanged.listen((LocationData currentLocation) {
       _lastLocationData = currentLocation;
+      if (currentLocation.latitude != null && currentLocation.longitude != null) {
+        viewModel?.setMapViewPosition(currentLocation.latitude!, currentLocation.longitude!);
+        if (iconMarker == null) {
+          iconMarker ??= IconMarker(
+              fontSize: 30,
+              icon: Icons.gps_fixed,
+              color: Colors.red,
+              center: LatLong(currentLocation.latitude!, currentLocation.longitude!),
+              displayModel: displayModel);
+          mapModel.markerDataStores.add(MarkerDataStore()..addMarker(iconMarker!));
+        }
+      }
       _subject.add(currentLocation);
     });
     return null;
@@ -51,6 +89,10 @@ class LocationMgr {
   void shutdown() {
     _subscription?.cancel();
     _subscription = null;
+    mapModel.markerDataStores.clear();
+    iconMarker = null;
+    viewModel?.dispose();
+    viewModel = null;
   }
 
   Stream<LocationData> get stream => _subject.stream;
