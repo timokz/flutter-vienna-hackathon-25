@@ -24,16 +24,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  go_router: ^16.1.0
+
+  location: ^8.0.1
+
+  rxdart: ^0.28.0
+
   serverpod_flutter: 2.9.1
+
   wien_talks_client:
     path: ../wien_talks_client
   serverpod_auth_shared_flutter: ^2.9.1
 
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.5
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'
