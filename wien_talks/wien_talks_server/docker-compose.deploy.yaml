@@ -63,13 +63,6 @@ services:
       - "traefik.http.routers.wien-talks-web.service=wien-talks-web-service"
       - "traefik.http.services.wien-talks-web-service.loadbalancer.server.port=${SERVERPOD_WEB_SERVER_PORT}"
 
-  debug:
-    container_name: debug
-    image: debian:13
-    networks:
-      - docker-net
-      - backend
-
 volumes:
   db:
 
