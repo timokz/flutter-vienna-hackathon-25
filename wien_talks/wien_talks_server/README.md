@@ -1,4 +1,4 @@
-# wien_talks_server
+# Wien Talks: Server
 
 ## Local Development Environment
 
