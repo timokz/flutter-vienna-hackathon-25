@@ -17,29 +17,29 @@ import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
 import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
-class EndpointQuote extends _i1.EndpointRef {
-  EndpointQuote(_i1.EndpointCaller caller) : super(caller);
+class EndpointShowLatestNewsWidget extends _i1.EndpointRef {
+  EndpointShowLatestNewsWidget(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'quote';
+  String get name => 'showLatestNewsWidget';
 
   _i2.Future<_i3.Quote> createQuote(_i4.CreateQuoteRequest req) =>
       caller.callServerEndpoint<_i3.Quote>(
-        'quote',
+        'showLatestNewsWidget',
         'createQuote',
         {'req': req},
       );
 
   _i2.Future<void> updateQuote(_i3.Quote quote) =>
       caller.callServerEndpoint<void>(
-        'quote',
+        'showLatestNewsWidget',
         'updateQuote',
         {'quote': quote},
       );
 
   _i2.Future<List<_i3.Quote>> getAllQuotes({required int limit}) =>
       caller.callServerEndpoint<List<_i3.Quote>>(
-        'quote',
+        'showLatestNewsWidget',
         'getAllQuotes',
         {'limit': limit},
       );
@@ -79,16 +79,17 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
-    quote = EndpointQuote(this);
+    showLatestNewsWidget = EndpointShowLatestNewsWidget(this);
     modules = Modules(this);
   }
 
-  late final EndpointQuote quote;
+  late final EndpointShowLatestNewsWidget showLatestNewsWidget;
 
   late final Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'quote': quote};
+  Map<String, _i1.EndpointRef> get endpointRefLookup =>
+      {'showLatestNewsWidget': showLatestNewsWidget};
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>

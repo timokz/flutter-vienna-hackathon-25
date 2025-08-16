@@ -20,16 +20,16 @@ class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'quote': _i2.QuoteEndpoint()
+      'showLatestNewsWidget': _i2.ShowLatestNewsWidget()
         ..initialize(
           server,
-          'quote',
+          'showLatestNewsWidget',
           null,
         )
     };
-    connectors['quote'] = _i1.EndpointConnector(
-      name: 'quote',
-      endpoint: endpoints['quote']!,
+    connectors['showLatestNewsWidget'] = _i1.EndpointConnector(
+      name: 'showLatestNewsWidget',
+      endpoint: endpoints['showLatestNewsWidget']!,
       methodConnectors: {
         'createQuote': _i1.MethodConnector(
           name: 'createQuote',
@@ -44,7 +44,8 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).createQuote(
+              (endpoints['showLatestNewsWidget'] as _i2.ShowLatestNewsWidget)
+                  .createQuote(
             session,
             params['req'],
           ),
@@ -62,7 +63,8 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).updateQuote(
+              (endpoints['showLatestNewsWidget'] as _i2.ShowLatestNewsWidget)
+                  .updateQuote(
             session,
             params['quote'],
           ),
@@ -80,7 +82,8 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quote'] as _i2.QuoteEndpoint).getAllQuotes(
+              (endpoints['showLatestNewsWidget'] as _i2.ShowLatestNewsWidget)
+                  .getAllQuotes(
             session,
             limit: params['limit'],
           ),

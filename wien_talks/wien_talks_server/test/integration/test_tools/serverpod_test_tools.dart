@@ -103,7 +103,7 @@ void withServerpod(
 }
 
 class TestEndpoints {
-  late final _QuoteEndpoint quote;
+  late final _ShowLatestNewsWidget showLatestNewsWidget;
 }
 
 class _InternalTestEndpoints extends TestEndpoints
@@ -113,15 +113,15 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.SerializationManager serializationManager,
     _i2.EndpointDispatch endpoints,
   ) {
-    quote = _QuoteEndpoint(
+    showLatestNewsWidget = _ShowLatestNewsWidget(
       endpoints,
       serializationManager,
     );
   }
 }
 
-class _QuoteEndpoint {
-  _QuoteEndpoint(
+class _ShowLatestNewsWidget {
+  _ShowLatestNewsWidget(
     this._endpointDispatch,
     this._serializationManager,
   );
@@ -137,13 +137,13 @@ class _QuoteEndpoint {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'quote',
+        endpoint: 'showLatestNewsWidget',
         method: 'createQuote',
       );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'quote',
+          endpointPath: 'showLatestNewsWidget',
           methodName: 'createQuote',
           parameters: _i1.testObjectToJson({'req': req}),
           serializationManager: _serializationManager,
@@ -166,13 +166,13 @@ class _QuoteEndpoint {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'quote',
+        endpoint: 'showLatestNewsWidget',
         method: 'updateQuote',
       );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'quote',
+          endpointPath: 'showLatestNewsWidget',
           methodName: 'updateQuote',
           parameters: _i1.testObjectToJson({'quote': quote}),
           serializationManager: _serializationManager,
@@ -195,13 +195,13 @@ class _QuoteEndpoint {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'quote',
+        endpoint: 'showLatestNewsWidget',
         method: 'getAllQuotes',
       );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'quote',
+          endpointPath: 'showLatestNewsWidget',
           methodName: 'getAllQuotes',
           parameters: _i1.testObjectToJson({'limit': limit}),
           serializationManager: _serializationManager,
