@@ -40,7 +40,7 @@ class QuoteEndpoint extends Endpoint {
     );
 
     final inserted = await session.db.insertRow<Quote>(quote);
-    await session.messages.postMessage(_channelQuoteUpdates, quote);
+    await session.messages.postMessage(_channelQuoteUpdates, inserted);
 
     return inserted;
   }

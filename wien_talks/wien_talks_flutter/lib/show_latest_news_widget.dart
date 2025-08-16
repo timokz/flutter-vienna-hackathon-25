@@ -16,7 +16,10 @@ class ShowLatestNewsWidget extends StatelessWidget {
             children: [
               HeadingText(text: "Latest news"),
               if (snapshot.hasError) Text('Error: ${snapshot.error}'),
-              Text(snapshot.data ?? "Be the first to submit amazing news!", style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.error)),
+              Text(snapshot.data ?? "Be the first to submit amazing news!",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.error)),
             ],
           );
         });
