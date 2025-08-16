@@ -5,39 +5,11 @@ services:
     ports:
       - "8090:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: wien_talks
-      POSTGRES_PASSWORD: "xiooSw3_x3i8ckjeCzqFHeKKjuv0Wxsv"
+      POSTGRES_USER:
+      POSTGRES_DB:
+      POSTGRES_PASSWORD:
     volumes:
       - wien_talks_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:6.2.6
-    ports:
-      - "8091:6379"
-    command: redis-server --requirepass "9vM2BNozAdWSFBvhxbh32kIzfXhQpQ-9"
-    environment:
-      - REDIS_REPLICATION_MODE=master
-
-  # Test services
-  postgres_test:
-    image: pgvector/pgvector:pg16
-    ports:
-      - "9090:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: wien_talks_test
-      POSTGRES_PASSWORD: "ZjZXx6_kky5qtz6Uf6X54KvgsjBzanGF"
-    volumes:
-      - wien_talks_test_data:/var/lib/postgresql/data
-
-  redis_test:
-    image: redis:6.2.6
-    ports:
-      - "9091:6379"
-    command: redis-server --requirepass "oNl0yIsZCylx162cRkzP3046JbIaycuZ"
-    environment:
-      - REDIS_REPLICATION_MODE=master
 
 volumes:
   wien_talks_data:
