@@ -12,7 +12,8 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:wien_talks_client/src/protocol/greeting.dart' as _i3;
-import 'protocol.dart' as _i4;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i4;
+import 'protocol.dart' as _i5;
 
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
@@ -32,19 +33,12 @@ class EndpointGreeting extends _i1.EndpointRef {
       );
 }
 
-/// {@category Endpoint}
-class EndpointRecipe extends _i1.EndpointRef {
-  EndpointRecipe(_i1.EndpointCaller caller) : super(caller);
+class Modules {
+  Modules(Client client) {
+    auth = _i4.Caller(client);
+  }
 
-  @override
-  String get name => 'recipe';
-
-  _i2.Future<String> postQuote(String quote) =>
-      caller.callServerEndpoint<String>(
-        'recipe',
-        'postQuote',
-        {'quote': quote},
-      );
+  late final _i4.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -63,7 +57,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i4.Protocol(),
+          _i5.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -74,19 +68,17 @@ class Client extends _i1.ServerpodClientShared {
               disconnectStreamsOnLostInternetConnection,
         ) {
     greeting = EndpointGreeting(this);
-    recipe = EndpointRecipe(this);
+    modules = Modules(this);
   }
 
   late final EndpointGreeting greeting;
 
-  late final EndpointRecipe recipe;
+  late final Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {
-        'greeting': greeting,
-        'recipe': recipe,
-      };
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {'greeting': greeting};
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
+      {'auth': modules.auth};
 }
