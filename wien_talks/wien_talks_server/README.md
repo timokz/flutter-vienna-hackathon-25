@@ -13,3 +13,17 @@ Then you can start the Serverpod server.
 When you are finished, you can shut down Serverpod with `Ctrl-C`, then stop Postgres and Redis.
 
     docker compose stop
+
+## Environments & Passwords
+
+Note that the password used in your environment files (`.env` for local
+development and `env.d/postgres.env.template` for deployment) must correspond to
+the password in `config/passwords.yaml`.
+
+The `config/passwords.yaml` file must be created manually, for example:
+
+```yaml
+development:
+  database: your-password-here
+```
+
