@@ -3,7 +3,7 @@ import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/quotes/quote_controller.dart';
 
 class QuoteEndpoint extends Endpoint {
-  Future<Quote> create(Session session, CreateQuoteRequest req) async {
+  Future<Quote> createQuote(Session session, CreateQuoteRequest req) async {
     final authInfo = await session.authenticated;
     final userId = authInfo?.userId;
 
@@ -39,5 +39,24 @@ class QuoteEndpoint extends Endpoint {
     }
 
     throw Exception('Quote not found');
+  }
+
+// Only for dev
+  Future<List<Quote>> getAllQuotes(Session session) async {
+    final quotes = await Quote.db.find(session);
+    return quotes;
+  }
+
+  Stream streamAllQuotes(
+    StreamingSession session, {
+    int limit = 200,
+  }) async* {
+    if (limit <= 0 || limit > 500) limit = 200;
+
+    final quoteStream = session.messages.createStream('quotes');
+
+    await for (final Quote quote in quoteStream) {
+      yield quote;
+    }
   }
 }

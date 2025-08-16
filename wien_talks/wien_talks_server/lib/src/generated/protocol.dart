@@ -15,6 +15,7 @@ import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
 import 'greeting.dart' as _i4;
 import 'quotes/create_quote.dart' as _i5;
 import 'quotes/quote.dart' as _i6;
+import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i7;
 export 'greeting.dart';
 export 'quotes/create_quote.dart';
 export 'quotes/quote.dart';
@@ -156,6 +157,9 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()
           : null) as T;
+    }
+    if (t == List<_i7.Quote>) {
+      return (data as List).map((e) => deserialize<_i7.Quote>(e)).toList() as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);

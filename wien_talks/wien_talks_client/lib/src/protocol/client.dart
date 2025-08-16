@@ -12,8 +12,10 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:wien_talks_client/src/protocol/greeting.dart' as _i3;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:wien_talks_client/src/protocol/quotes/quote.dart' as _i4;
+import 'package:wien_talks_client/src/protocol/quotes/create_quote.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
@@ -33,12 +35,41 @@ class EndpointGreeting extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointQuote extends _i1.EndpointRef {
+  EndpointQuote(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'quote';
+
+  _i2.Future<_i4.Quote> createQuote(_i5.CreateQuoteRequest req) =>
+      caller.callServerEndpoint<_i4.Quote>(
+        'quote',
+        'createQuote',
+        {'req': req},
+      );
+
+  _i2.Future<_i4.Quote> getQuoteById(int id) =>
+      caller.callServerEndpoint<_i4.Quote>(
+        'quote',
+        'getQuoteById',
+        {'id': id},
+      );
+
+  _i2.Future<List<_i4.Quote>> getAllQuotes() =>
+      caller.callServerEndpoint<List<_i4.Quote>>(
+        'quote',
+        'getAllQuotes',
+        {},
+      );
+}
+
 class Modules {
   Modules(Client client) {
-    auth = _i4.Caller(client);
+    auth = _i6.Caller(client);
   }
 
-  late final _i4.Caller auth;
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -57,7 +88,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -68,15 +99,21 @@ class Client extends _i1.ServerpodClientShared {
               disconnectStreamsOnLostInternetConnection,
         ) {
     greeting = EndpointGreeting(this);
+    quote = EndpointQuote(this);
     modules = Modules(this);
   }
 
   late final EndpointGreeting greeting;
 
+  late final EndpointQuote quote;
+
   late final Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'greeting': greeting};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'greeting': greeting,
+        'quote': quote,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>

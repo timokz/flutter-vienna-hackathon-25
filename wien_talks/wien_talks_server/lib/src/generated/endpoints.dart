@@ -11,7 +11,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../greeting_endpoint.dart' as _i2;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
+import '../quotes/quotes_endpoint.dart' as _i3;
+import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
+    as _i4;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -22,7 +25,13 @@ class Endpoints extends _i1.EndpointDispatch {
           server,
           'greeting',
           null,
-        )
+        ),
+      'quote': _i3.QuoteEndpoint()
+        ..initialize(
+          server,
+          'quote',
+          null,
+        ),
     };
     connectors['greeting'] = _i1.EndpointConnector(
       name: 'greeting',
@@ -48,6 +57,57 @@ class Endpoints extends _i1.EndpointDispatch {
         )
       },
     );
-    modules['serverpod_auth'] = _i3.Endpoints()..initializeEndpoints(server);
+    connectors['quote'] = _i1.EndpointConnector(
+      name: 'quote',
+      endpoint: endpoints['quote']!,
+      methodConnectors: {
+        'createQuote': _i1.MethodConnector(
+          name: 'createQuote',
+          params: {
+            'req': _i1.ParameterDescription(
+              name: 'req',
+              type: _i1.getType<_i4.CreateQuoteRequest>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).createQuote(
+            session,
+            params['req'],
+          ),
+        ),
+        'getQuoteById': _i1.MethodConnector(
+          name: 'getQuoteById',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).getQuoteById(
+            session,
+            params['id'],
+          ),
+        ),
+        'getAllQuotes': _i1.MethodConnector(
+          name: 'getAllQuotes',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).getAllQuotes(session),
+        ),
+      },
+    );
+    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
   }
 }

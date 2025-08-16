@@ -1,2 +1,6 @@
 greeting:
   - hello:
+quote:
+  - createQuote:
+  - getQuoteById:
+  - getAllQuotes:
