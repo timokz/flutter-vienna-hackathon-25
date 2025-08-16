@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:location/location.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LocationMgr {
   Location location = Location();
@@ -7,9 +10,13 @@ class LocationMgr {
 
   PermissionStatus permissionGranted = PermissionStatus.denied;
 
-  LocationData? locationData;
+  LocationData? _lastLocationData;
 
   static LocationMgr? _instance;
+
+  final Subject<LocationData> _subject = PublishSubject<LocationData>();
+
+  StreamSubscription? _subscription;
 
   factory LocationMgr() {
     _instance ??= LocationMgr._();
@@ -34,6 +41,19 @@ class LocationMgr {
         return "No permissions granted";
       }
     }
+    _subscription = location.onLocationChanged.listen((LocationData currentLocation) {
+      _lastLocationData = currentLocation;
+      _subject.add(currentLocation);
+    });
     return null;
   }
+
+  void shutdown() {
+    _subscription?.cancel();
+    _subscription = null;
+  }
+
+  Stream<LocationData> get stream => _subject.stream;
+
+  LocationData? get lastLocation => _lastLocationData;
 }
