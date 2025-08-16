@@ -1,0 +1,75 @@
+networks:
+  docker-net:
+    name: docker-net
+    external: true
+  backend:
+    name: backend
+    driver: bridge
+    external: false
+
+services:
+  postgres:
+    image: postgres:16-trixie
+    container_name: postgres
+    env_file:
+      - path: env.d/postgres.env
+        required: true
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  server:
+    depends_on:
+      - postgres
+    build:
+      context: ./
+    image: wien-talks
+    command: [
+      "--mode",
+      "production",
+      "--server-id",
+      "default",
+      "--logging",
+      "normal",
+      "--role",
+      "monolith",
+      "--apply-migrations",
+    ]
+    env_file:
+      - path: env.d/server.env
+        required: true
+    restart: always
+    networks:
+      - docker-net
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wien-talks-api.rule=Host(`${SERVERPOD_API_SERVER_PUBLIC_HOST}`)"
+      - "traefik.http.routers.wien-talks-api.entrypoints=secure"
+      - "traefik.http.routers.wien-talks-api.service=wien-talks-api-service"
+      - "traefik.http.services.wien-talks-api-service.loadbalancer.server.port=${SERVERPOD_API_SERVER_PORT}"
+
+      - "traefik.http.routers.wien-talks-insights.rule=Host(`${SERVERPOD_INSIGHTS_SERVER_PUBLIC_HOST}`)"
+      - "traefik.http.routers.wien-talks-insights.entrypoints=secure"
+      - "traefik.http.routers.wien-talks-insights.service=wien-talks-insights-service"
+      - "traefik.http.services.wien-talks-insights-service.loadbalancer.server.port=${SERVERPOD_INSIGHTS_SERVER_PORT}"
+
+      - "traefik.http.routers.wien-talks-web.rule=Host(`${SERVERPOD_WEB_SERVER_PUBLIC_HOST}`)"
+      - "traefik.http.routers.wien-talks-web.entrypoints=secure"
+      - "traefik.http.routers.wien-talks-web.service=wien-talks-web-service"
+      - "traefik.http.services.wien-talks-web-service.loadbalancer.server.port=${SERVERPOD_WEB_SERVER_PORT}"
+
+  debug:
+    container_name: debug
+    image: debian:13
+    networks:
+      - docker-net
+      - backend
+
+volumes:
+  db:
+
