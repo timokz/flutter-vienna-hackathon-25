@@ -17,6 +17,8 @@ import 'dart:async' as _i3;
 import 'package:wien_talks_server/src/generated/quotes/quote.dart' as _i4;
 import 'package:wien_talks_server/src/generated/quotes/create_quote.dart'
     as _i5;
+import 'package:wien_talks_server/src/generated/votes/vote.dart' as _i6;
+import 'package:wien_talks_server/src/generated/votes/vote_request.dart' as _i7;
 import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -121,10 +123,7 @@ class _InternalTestEndpoints extends TestEndpoints
 }
 
 class _ShowLatestNewsWidget {
-  _ShowLatestNewsWidget(
-    this._endpointDispatch,
-    this._serializationManager,
-  );
+  _ShowLatestNewsWidget(this._endpointDispatch, this._serializationManager);
 
   final _i2.EndpointDispatch _endpointDispatch;
 
@@ -137,9 +136,9 @@ class _ShowLatestNewsWidget {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'showLatestNewsWidget',
-        method: 'createQuote',
-      );
+            endpoint: 'showLatestNewsWidget',
+            method: 'createQuote',
+          );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
@@ -148,10 +147,12 @@ class _ShowLatestNewsWidget {
           parameters: _i1.testObjectToJson({'req': req}),
           serializationManager: _serializationManager,
         );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<_i4.Quote>);
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i4.Quote>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -166,9 +167,9 @@ class _ShowLatestNewsWidget {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'showLatestNewsWidget',
-        method: 'updateQuote',
-      );
+            endpoint: 'showLatestNewsWidget',
+            method: 'updateQuote',
+          );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
@@ -177,10 +178,12 @@ class _ShowLatestNewsWidget {
           parameters: _i1.testObjectToJson({'quote': quote}),
           serializationManager: _serializationManager,
         );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<void>);
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -195,9 +198,9 @@ class _ShowLatestNewsWidget {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
-        endpoint: 'showLatestNewsWidget',
-        method: 'getAllQuotes',
-      );
+            endpoint: 'showLatestNewsWidget',
+            method: 'getAllQuotes',
+          );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
@@ -206,10 +209,12 @@ class _ShowLatestNewsWidget {
           parameters: _i1.testObjectToJson({'limit': limit}),
           serializationManager: _serializationManager,
         );
-        var _localReturnValue = await (_localCallContext.method.call(
-          _localUniqueSession,
-          _localCallContext.arguments,
-        ) as _i3.Future<List<_i4.Quote>>);
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i6.Vote>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

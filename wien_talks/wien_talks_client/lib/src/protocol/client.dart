@@ -13,8 +13,10 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:wien_talks_client/src/protocol/quotes/quote.dart' as _i3;
 import 'package:wien_talks_client/src/protocol/quotes/create_quote.dart' as _i4;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
-import 'protocol.dart' as _i6;
+import 'package:wien_talks_client/src/protocol/votes/vote.dart' as _i5;
+import 'package:wien_talks_client/src/protocol/votes/vote_request.dart' as _i6;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
+import 'protocol.dart' as _i8;
 
 /// {@category Endpoint}
 class EndpointShowLatestNewsWidget extends _i1.EndpointRef {
@@ -37,20 +39,42 @@ class EndpointShowLatestNewsWidget extends _i1.EndpointRef {
         {'quote': quote},
       );
 
-  _i2.Future<List<_i3.Quote>> getAllQuotes({required int limit}) =>
+  _i2.Future<List<_i3.Quote>> getAllQuotes() =>
       caller.callServerEndpoint<List<_i3.Quote>>(
         'showLatestNewsWidget',
         'getAllQuotes',
-        {'limit': limit},
+        {},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointVotes extends _i1.EndpointRef {
+  EndpointVotes(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'votes';
+
+  _i2.Future<_i5.Vote> postVote(_i6.VoteRequest voteRequest) =>
+      caller.callServerEndpoint<_i5.Vote>(
+        'votes',
+        'postVote',
+        {'voteRequest': voteRequest},
+      );
+
+  _i2.Future<List<_i5.Vote>> getAllVotes() =>
+      caller.callServerEndpoint<List<_i5.Vote>>(
+        'votes',
+        'getAllVotes',
+        {},
       );
 }
 
 class Modules {
   Modules(Client client) {
-    auth = _i5.Caller(client);
+    auth = _i7.Caller(client);
   }
 
-  late final _i5.Caller auth;
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -69,7 +93,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i6.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -84,6 +108,8 @@ class Client extends _i1.ServerpodClientShared {
   }
 
   late final EndpointShowLatestNewsWidget showLatestNewsWidget;
+
+  late final EndpointVotes votes;
 
   late final Modules modules;
 

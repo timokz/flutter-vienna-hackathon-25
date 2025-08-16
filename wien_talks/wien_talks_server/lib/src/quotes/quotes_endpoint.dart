@@ -1,11 +1,11 @@
-// lib/src/endpoints/quote_endpoint.dart
 import 'dart:async';
+import 'dart:math';
 
 import 'package:serverpod/serverpod.dart';
 import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/quotes/quote_util.dart';
 
-class ShowLatestNewsWidget extends Endpoint {
+class QuoteEndpoint extends Endpoint {
   static const _channelQuoteUpdates = 'quote-updates';
 
   Future<Quote> createQuote(Session session, CreateQuoteRequest req) async {
@@ -15,8 +15,7 @@ class ShowLatestNewsWidget extends Endpoint {
     final text = validateQuote(req);
 
     final toInsert = Quote(
-      id: 0,
-      userId: userId ?? 12,
+      userId: userId ?? Random().nextInt(1200),
       text: text,
       authorName: req.authorName,
       lat: req.lat,
@@ -37,8 +36,22 @@ class ShowLatestNewsWidget extends Endpoint {
     await session.messages.postMessage(_channelQuoteUpdates, quote);
   }
 
-  Future<List<Quote>> getAllQuotes(Session session, {int limit = 200}) async {
-    final quoteList = await Quote.db.find(session);
+  Future<List<Quote>> getAllQuotes(
+    Session session,
+  ) async {
+    session.log('$session');
+
+    final quoteList = await Quote.db.find(
+      session,
+      // where: (t) => t.visibility.equals(0),
+      // orderBy: (t) => t.createdAt,
+      // orderDescending: true,
+    );
+
+    for (var element in quoteList) {
+      session.log(element.text);
+    }
+
     return quoteList;
   }
 

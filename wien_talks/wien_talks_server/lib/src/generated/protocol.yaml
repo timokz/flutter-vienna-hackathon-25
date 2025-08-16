@@ -2,3 +2,6 @@ quote:
   - createQuote:
   - updateQuote:
   - getAllQuotes:
+votes:
+  - postVote:
+  - getAllVotes:
