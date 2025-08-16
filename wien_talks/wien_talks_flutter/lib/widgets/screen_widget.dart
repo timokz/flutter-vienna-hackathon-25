@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:wien_talks_flutter/widgets/add_quote_fab.dart';
 
 class ScreenWidget extends StatelessWidget {
   final Widget child;
@@ -15,7 +16,16 @@ class ScreenWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FunMap'),
       ),
-//      floatingActionButton: AddQuoteFab(),
+      floatingActionButton: AddQuoteFab(
+          // onSubmit: (draft) {
+          //   FunmapMgr().client.quote.createQuote(CreateQuoteRequest(
+          //         text: draft.text,
+          //         authorName: draft.author,
+          //         lat: LocationMgr().lastLocation!.latitude!,
+          //         lng: LocationMgr().lastLocation!.longitude!,
+          //       ));
+          // },
+          ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -28,7 +38,8 @@ class ScreenWidget extends StatelessWidget {
                   );
                 case 1:
                   return Center(
-                    child: SpinKitCubeGrid(size: 50, color: Theme.of(context).primaryColor),
+                    child: SpinKitCubeGrid(
+                        size: 50, color: Theme.of(context).primaryColor),
                   );
                 case 2:
                   return Center(
@@ -36,15 +47,18 @@ class ScreenWidget extends StatelessWidget {
                   );
                 case 3:
                   return Center(
-                    child: SpinKitHourGlass(color: Theme.of(context).primaryColor),
+                    child:
+                        SpinKitHourGlass(color: Theme.of(context).primaryColor),
                   );
                 case 4:
                   return Center(
-                    child: SpinKitFadingCircle(color: Theme.of(context).primaryColor),
+                    child: SpinKitFadingCircle(
+                        color: Theme.of(context).primaryColor),
                   );
                 default:
                   return Center(
-                    child: SpinKitPulsingGrid(color: Theme.of(context).primaryColor),
+                    child: SpinKitPulsingGrid(
+                        color: Theme.of(context).primaryColor),
                   );
               }
             },
