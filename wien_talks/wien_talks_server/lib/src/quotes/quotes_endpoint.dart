@@ -3,6 +3,22 @@ import 'package:wien_talks_server/src/generated/protocol.dart';
 import 'package:wien_talks_server/src/quotes/quote_controller.dart';
 
 class QuoteEndpoint extends Endpoint {
+  static const _channelQuoteUpdates = 'quote-updates';
+
+  Future<void> updateQuote(Session session, Quote quote) async {
+    await Quote.db.updateRow(session, quote);
+    await session.messages.postMessage(_channelQuoteUpdates, quote);
+  }
+
+  Stream<Quote> quoteUpdates(Session session) async* {
+    var updateStream =
+        session.messages.createStream<Quote>(_channelQuoteUpdates);
+
+    await for (var quote in updateStream) {
+      yield quote;
+    }
+  }
+
   Future<Quote> createQuote(Session session, CreateQuoteRequest req) async {
     final authInfo = await session.authenticated;
     final userId = authInfo?.userId;
@@ -29,6 +45,8 @@ class QuoteEndpoint extends Endpoint {
     );
 
     final inserted = await session.db.insertRow<Quote>(quote);
+    await session.messages.postMessage(_channelQuoteUpdates, quote);
+
     return inserted;
   }
 
