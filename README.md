@@ -23,21 +23,21 @@ too. This allows you to see what's going on near you.
 <table>
   <tr>
     <td align="center">
-      <img src="Screenshot_1755421875.png" width="300" alt="Default quotes list"/>
+      <img src="unicorn/Screenshot_1755421875.png" width="300" alt="Default quotes list"/>
       <div><sub>Default quotes view</sub></div>
     </td>
     <td align="center">
-      <img src="Screenshot_1755421892.png" width="300" alt="Filtered quotes list"/>
+      <img src="unicorn/Screenshot_1755421892.png" width="300" alt="Filtered quotes list"/>
       <div><sub>Filtered quotes</sub></div>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="Screenshot_1755421897.png" width="300" alt="Reuse location from quote"/>
+      <img src="unicorn/Screenshot_1755421897.png" width="300" alt="Reuse location from quote"/>
       <div><sub>Tap a card → create with same location</sub></div>
     </td>
     <td align="center">
-      <img src="Screenshot_1755421907.png" width="300" alt="Custom location picker"/>
+      <img src="unicorn/Screenshot_1755421907.png" width="300" alt="Custom location picker"/>
       <div><sub>Set a custom location</sub></div>
     </td>
   </tr>
