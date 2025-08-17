@@ -13,6 +13,7 @@ class NewsInputForm extends StatefulWidget {
   const NewsInputForm({super.key, required this.onSubmit});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NewsInputFormState createState() => _NewsInputFormState();
 }
 
@@ -45,7 +46,7 @@ class _NewsInputFormState extends State<NewsInputForm> {
       try {
         await widget.onSubmit(newsData);
       } catch (error) {
-        if (context.mounted) {
+        if (mounted) {
           ErrorSnackbar().show(context, error.toString());
         }
       } finally {

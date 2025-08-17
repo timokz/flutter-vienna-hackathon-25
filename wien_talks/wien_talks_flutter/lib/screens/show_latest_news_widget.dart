@@ -45,10 +45,11 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
 
   void _upsert(Quote q) {
     final i = _quotes.indexWhere((x) => x.id == q.id);
-    if (i >= 0)
+    if (i >= 0) {
       _quotes[i] = q;
-    else
+    } else {
       _quotes.add(q);
+    }
     _quotes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
   }
 
@@ -103,7 +104,7 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
       builder: (context, constraints) {
         final unboundedHeight = constraints.maxHeight == double.infinity;
 
-        final list = ListView.separated(
+        return ListView.separated(
           padding: const EdgeInsets.symmetric(vertical: 8),
           shrinkWrap: unboundedHeight,
           physics: unboundedHeight
@@ -127,10 +128,6 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
             );
           },
         );
-
-        return unboundedHeight
-            ? list
-            : RefreshIndicator(onRefresh: () async {}, child: list);
       },
     );
   }
