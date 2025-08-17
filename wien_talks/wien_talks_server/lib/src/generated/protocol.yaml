@@ -1,0 +1,12 @@
+health:
+  - ping:
+  - all:
+quote:
+  - createQuote:
+  - updateQuote:
+  - getAllQuotes:
+  - streamAllQuotes:
+votes:
+  - getAllVotes:
+  - createVote:
+  - sayHello:

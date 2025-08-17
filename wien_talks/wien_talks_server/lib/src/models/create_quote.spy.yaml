@@ -1,0 +1,7 @@
+ class: CreateQuoteRequest 
+ fields:
+  text: String   
+  authorName: String?   
+  lat: double   
+  lng: double   
+  tags: List<String>? 

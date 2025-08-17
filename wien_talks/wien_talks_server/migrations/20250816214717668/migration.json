@@ -1,0 +1,43 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "vote",
+        "schema": "public",
+        "addColumns": [],
+        "deleteColumns": [
+          "quote"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"quote\" of table \"vote\" will be dropped.",
+            "table": "vote",
+            "columns": [
+              "quote"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"quote\" of table \"vote\" will be dropped.",
+      "table": "vote",
+      "columns": [
+        "quote"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

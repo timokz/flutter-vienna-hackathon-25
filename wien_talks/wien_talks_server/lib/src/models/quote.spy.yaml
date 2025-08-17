@@ -1,0 +1,14 @@
+class: Quote
+table: quote
+fields:
+  id: int?
+  userId: int
+  text: String
+  authorName: String?
+  lat: double
+  long: double
+  createdAt: DateTime
+  visibility: int
+  upvotes: int
+  downvotes: int
+  tags: List<String>?

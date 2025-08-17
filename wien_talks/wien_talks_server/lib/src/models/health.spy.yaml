@@ -1,0 +1,5 @@
+class: Health
+table: health
+fields:
+  createdAt: DateTime
+  note: String?
