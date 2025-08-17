@@ -18,4 +18,5 @@ Quotes are community-moderated—users can up- or down-vote posts. Additionally,
 when creating a new quote, the location from which the user made it is added,
 too. This allows you to see what's going on near you.
 
+<img src="./Screenshot_1755421875" width="250"/>
 ![alt text](Screenshot_1755421875.png) ![alt text](Screenshot_1755421892.png) ![alt text](Screenshot_1755421897.png) ![alt text](Screenshot_1755421907.png)
