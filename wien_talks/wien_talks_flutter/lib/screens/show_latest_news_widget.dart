@@ -3,97 +3,91 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
 import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
+import 'package:wien_talks_flutter/helper/time_util.dart';
 import 'package:wien_talks_flutter/widgets/quote_card.dart';
 
-class ShowLatestNewsWidget extends StatefulWidget {
-  const ShowLatestNewsWidget({super.key});
+class LatestQuotesScreen extends StatefulWidget {
+  const LatestQuotesScreen({super.key});
 
   @override
-  State<ShowLatestNewsWidget> createState() => _ShowLatestNewsWidgetState();
+  State<LatestQuotesScreen> createState() => _LatestQuotesScreenState();
 }
 
-class _ShowLatestNewsWidgetState extends State<ShowLatestNewsWidget> {
-  List<Quote>? _quotes;
+class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
+  final List<Quote> _quotes = [];
+  StreamSubscription<Quote>? _sub;
+
   Object? _error;
-  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _fetch();
+    _connectStream();
   }
 
-  Future<void> _fetch() async {
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
-    try {
-      final list = await FunmapMgr().client.quote.getAllQuotes();
-      final quotes = list.whereType<Quote>().toList(growable: false);
-      quotes.sort((a, b) => (b.createdAt).compareTo(a.createdAt));
-      setState(() {
-        _quotes = quotes;
-      });
-    } catch (e) {
-      setState(() => _error = e);
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
   }
 
-  Future<void> _refresh() => _fetch();
+  void _connectStream() {
+    _sub?.cancel();
+    _sub = FunmapMgr().client.quote.streamAllQuotes(limit: 50).listen(
+          (q) => setState(() => _upsert(q)),
+          onError: (e) => setState(() => _error = e),
+          onDone: () => Future.delayed(const Duration(seconds: 2), () {
+            if (mounted) _connectStream();
+          }),
+          cancelOnError: false,
+        );
+  }
+
+  void _upsert(Quote q) {
+    final i = _quotes.indexWhere((x) => x.id == q.id);
+    if (i >= 0)
+      _quotes[i] = q;
+    else
+      _quotes.add(q);
+    _quotes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  void _sortDesc() {
+    _quotes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
 
   Future<void> _vote(Quote quote, bool up) async {
-    if (_quotes == null) return;
-    final idx = _quotes!.indexWhere((q) => q.id == quote.id);
+    final idx = _quotes.indexWhere((q) => q.id == quote.id);
     if (idx < 0) return;
 
-    final original = _quotes![idx];
+    final original = _quotes[idx];
     final updated = original.copyWith(
       upvotes: up ? original.upvotes + 1 : original.upvotes,
       downvotes: up ? original.downvotes : original.downvotes + 1,
     );
 
     setState(() {
-      final copy = List<Quote>.from(_quotes!);
-      copy[idx] = updated;
-      _quotes = copy;
+      _quotes[idx] = updated;
+      _sortDesc();
     });
 
     try {
       await FunmapMgr().client.quote.updateQuote(updated);
     } catch (e) {
-      setState(() {
-        final copy = List<Quote>.from(_quotes!);
-        copy[idx] = original;
-        _quotes = copy;
-      });
       if (!mounted) return;
+      setState(() => _quotes[idx] = original);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Vote failed: $e')),
       );
     }
   }
 
-  String _timeAgo(DateTime? dt) {
-    final d = (dt ?? DateTime.fromMillisecondsSinceEpoch(0)).toLocal();
-    final diff = DateTime.now().difference(d);
-    if (diff.inSeconds < 60) return 'just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays < 7) return '${diff.inDays}d ago';
-    final m = d.month.toString().padLeft(2, '0');
-    final day = d.day.toString().padLeft(2, '0');
-    return '${d.year}-$m-$day';
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
+    if (_quotes.isEmpty && _error == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (_error != null) {
+    if (_error != null && _quotes.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -101,9 +95,8 @@ class _ShowLatestNewsWidgetState extends State<ShowLatestNewsWidget> {
         ),
       );
     }
-    final quotes = _quotes ?? const <Quote>[];
-    if (quotes.isEmpty) {
-      return const Center(child: Text('No quotes yet.'));
+    if (_quotes.isEmpty) {
+      return const Center(child: Text('Nix da. Sag halt was'));
     }
 
     return LayoutBuilder(
@@ -116,14 +109,14 @@ class _ShowLatestNewsWidgetState extends State<ShowLatestNewsWidget> {
           physics: unboundedHeight
               ? const NeverScrollableScrollPhysics()
               : const AlwaysScrollableScrollPhysics(),
-          itemCount: quotes.length,
+          itemCount: _quotes.length,
           separatorBuilder: (_, __) => const SizedBox(height: 6),
           itemBuilder: (context, i) {
-            final q = quotes[i];
+            final q = _quotes[i];
             final author = (q.authorName ?? '').trim();
             final meta = [
               if (author.isNotEmpty) author,
-              _timeAgo(q.createdAt),
+              timeAgo(q.createdAt),
             ].join(' · ');
 
             return QuoteCard(
@@ -135,8 +128,9 @@ class _ShowLatestNewsWidgetState extends State<ShowLatestNewsWidget> {
           },
         );
 
-        if (unboundedHeight) return list;
-        return RefreshIndicator(onRefresh: _refresh, child: list);
+        return unboundedHeight
+            ? list
+            : RefreshIndicator(onRefresh: () async {}, child: list);
       },
     );
   }

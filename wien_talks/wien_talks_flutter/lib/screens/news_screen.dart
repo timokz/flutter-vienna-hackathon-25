@@ -17,7 +17,7 @@ class NewsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeadingText(text: "What's being said"),
-            ShowLatestNewsWidget(),
+            LatestQuotesScreen(),
             SizedBox(
               height: 30,
             ),

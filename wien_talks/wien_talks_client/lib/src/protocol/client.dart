@@ -47,12 +47,6 @@ class EndpointQuote extends _i1.EndpointRef {
   @override
   String get name => 'quote';
 
-  _i2.Future<String> dbPing() => caller.callServerEndpoint<String>(
-        'quote',
-        'dbPing',
-        {},
-      );
-
   _i2.Future<_i4.Quote> createQuote(_i5.CreateQuoteRequest req) =>
       caller.callServerEndpoint<_i4.Quote>(
         'quote',
@@ -71,6 +65,14 @@ class EndpointQuote extends _i1.EndpointRef {
       caller.callServerEndpoint<List<_i4.Quote>>(
         'quote',
         'getAllQuotes',
+        {},
+      );
+
+  _i2.Stream<_i4.Quote> streamAllQuotes({required int limit}) =>
+      caller.callStreamingServerEndpoint<_i2.Stream<_i4.Quote>, _i4.Quote>(
+        'quote',
+        'streamAllQuotes',
+        {'limit': limit},
         {},
       );
 }

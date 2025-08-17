@@ -29,7 +29,7 @@ class FunmapMgr {
     serverUrl =
         serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
 
-    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 5))
+    client = Client(serverUrl, connectionTimeout: const Duration(seconds: 2))
       ..connectivityMonitor = FlutterConnectivityMonitor();
 
     client.openStreamingConnection();

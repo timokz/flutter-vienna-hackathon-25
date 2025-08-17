@@ -2,10 +2,10 @@ health:
   - ping:
   - all:
 quote:
-  - dbPing:
   - createQuote:
   - updateQuote:
   - getAllQuotes:
+  - streamAllQuotes:
 votes:
   - getAllVotes:
   - createVote:

@@ -77,15 +77,6 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'quote',
       endpoint: endpoints['quote']!,
       methodConnectors: {
-        'dbPing': _i1.MethodConnector(
-          name: 'dbPing',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['quote'] as _i3.QuoteEndpoint).dbPing(session),
-        ),
         'createQuote': _i1.MethodConnector(
           name: 'createQuote',
           params: {
@@ -130,6 +121,27 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
           ) async =>
               (endpoints['quote'] as _i3.QuoteEndpoint).getAllQuotes(session),
+        ),
+        'streamAllQuotes': _i1.MethodStreamConnector(
+          name: 'streamAllQuotes',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          streamParams: {},
+          returnType: _i1.MethodStreamReturnType.streamType,
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+            Map<String, Stream> streamParams,
+          ) =>
+              (endpoints['quote'] as _i3.QuoteEndpoint).streamAllQuotes(
+            session,
+            limit: params['limit'],
+          ),
         ),
       },
     );

@@ -125,7 +125,7 @@ Future<QuoteDraft?> showQuoteEditor(
                     minLines: 3,
                     textInputAction: TextInputAction.newline,
                     decoration: InputDecoration(
-                      labelText: 'Quote text',
+                      labelText: 'Vienna`s finest',
                       hintText: 'How is Vienna surprising you today',
                       helperText: 'Max $maxChars characters',
                       counterText:

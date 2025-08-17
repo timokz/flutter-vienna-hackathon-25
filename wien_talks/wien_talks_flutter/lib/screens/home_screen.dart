@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IntroTextWidget(),
-            SizedBox(height: 200, child: ShowLatestNewsWidget()),
+            SizedBox(height: 200, child: LatestQuotesScreen()),
             SizedBox(
               height: 30,
             ),

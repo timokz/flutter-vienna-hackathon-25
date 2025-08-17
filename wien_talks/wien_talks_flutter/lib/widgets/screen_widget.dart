@@ -16,16 +16,7 @@ class ScreenWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FunMap'),
       ),
-      floatingActionButton: AddQuoteFab(
-          // onSubmit: (draft) {
-          //   FunmapMgr().client.quote.createQuote(CreateQuoteRequest(
-          //         text: draft.text,
-          //         authorName: draft.author,
-          //         lat: LocationMgr().lastLocation!.latitude!,
-          //         lng: LocationMgr().lastLocation!.longitude!,
-          //       ));
-          // },
-          ),
+      floatingActionButton: AddQuoteFab(),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
