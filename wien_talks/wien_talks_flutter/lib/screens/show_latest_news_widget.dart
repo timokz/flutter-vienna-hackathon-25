@@ -105,6 +105,7 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return MasonryGridView.count(
+          cacheExtent: 20,
           crossAxisCount: 2,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
