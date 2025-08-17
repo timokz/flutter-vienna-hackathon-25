@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wien_talks_flutter/screens/show_latest_news_widget.dart';
+import 'package:wien_talks_flutter/screens/latest_quotes_screen.dart';
 import 'package:wien_talks_flutter/widgets/heading_text.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 

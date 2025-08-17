@@ -21,6 +21,7 @@ class FlamboyantQuoteCard extends StatelessWidget {
     required this.onVoteUp,
     required this.onVoteDown,
     this.staticMapUrlBuilder,
+    this.onTap,
   });
 
   final Quote quote;
@@ -28,21 +29,20 @@ class FlamboyantQuoteCard extends StatelessWidget {
   final VoidCallback onVoteUp;
   final VoidCallback onVoteDown;
   final StaticMapUrlBuilder? staticMapUrlBuilder;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final seed = (quote.id ?? quote.text.hashCode) & 0x7fffffff;
     final rng = math.Random(seed);
 
-    final variant = (rng.nextInt(3));
-
-    // Subtle tilt and accent
+    final variant = rng.nextInt(3);
     final tiltDeg = [-2.2, -1.4, -0.6, 0, 0.6, 1.2, 2.0][rng.nextInt(7)];
     final tiltRad = tiltDeg * math.pi / 180.0;
     final accents = [
-      const Color(0xFFE53935), // red
-      const Color(0xFF3949AB), // indigo
-      const Color(0xFF00897B), // teal
+      const Color(0xFFE53935),
+      const Color(0xFF3949AB),
+      const Color(0xFF00897B),
     ];
     final accent = accents[seed % accents.length];
 
@@ -52,29 +52,41 @@ class FlamboyantQuoteCard extends StatelessWidget {
           .withValues(alpha: 0.70),
     );
 
-    final card = Container(
-      decoration: BoxDecoration(
-        color: t.colorScheme.surface,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 12,
-            offset: Offset(0, 6),
-          ),
-        ],
-        border: Border.all(color: accent.withValues(alpha: 0.25), width: 1),
+    final borderRadius = BorderRadius.circular(14);
+
+    final cardContent = CardContenty(
+      quote: quote,
+      staticMapUrlBuilder: staticMapUrlBuilder,
+      meta: meta,
+      onVoteUp: onVoteUp,
+      onVoteDown: onVoteDown,
+      context: context,
+      variant: variant,
+      accent: accent,
+      metaStyle: metaStyle,
+    );
+
+    final tappableCard = Material(
+      type: MaterialType.transparency,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: t.colorScheme.surface,
+          borderRadius: borderRadius,
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
+          border: Border.all(color: accent.withValues(alpha: 0.25), width: 1),
+        ),
+        child: InkWell(
+          borderRadius: borderRadius,
+          onTap: onTap,
+          child: cardContent,
+        ),
       ),
-      child: CardContenty(
-          quote: quote,
-          staticMapUrlBuilder: staticMapUrlBuilder,
-          meta: meta,
-          onVoteUp: onVoteUp,
-          onVoteDown: onVoteDown,
-          context: context,
-          variant: variant,
-          accent: accent,
-          metaStyle: metaStyle),
     );
 
     return Padding(
@@ -84,14 +96,17 @@ class FlamboyantQuoteCard extends StatelessWidget {
         children: [
           Transform.rotate(
             angle: tiltRad,
-            child: card,
+            transformHitTests: false,
+            child: tappableCard,
           ),
           Positioned(
             top: -8,
             right: 16,
-            child: UbahnTape(
-              lat: quote.lat,
-              lon: quote.long,
+            child: IgnorePointer(
+              child: UbahnTape(
+                lat: quote.lat,
+                lon: quote.long,
+              ),
             ),
           ),
         ],
