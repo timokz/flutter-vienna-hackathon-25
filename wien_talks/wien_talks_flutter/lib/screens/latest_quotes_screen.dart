@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
 import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
 import 'package:wien_talks_flutter/helper/location_filter.dart';
@@ -212,6 +213,14 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
                     _applyFilters();
                   },
                   staticMapUrlBuilder: gStaticMap,
+                  onTap: () => context.pushNamed(
+                    'create_event',
+                    extra: q,
+                    queryParameters: {
+                      'lat': q.lat.toString(),
+                      'lon': q.long.toString(),
+                    },
+                  ),
                 );
               },
             )),

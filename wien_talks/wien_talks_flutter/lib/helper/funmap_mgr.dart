@@ -26,8 +26,9 @@ class FunmapMgr {
     // E.g. `flutter run --dart-define=SERVER_URL=https://api.example.com/`
 
     const serverUrlFromEnv = String.fromEnvironment('SERVER_URL');
-    serverUrl =
-        serverUrlFromEnv.isEmpty ? 'http://$localhost:8080/' : serverUrlFromEnv;
+    serverUrl = serverUrlFromEnv.isEmpty
+        ? 'https://wien-talks-api.aequito.sh/'
+        : serverUrlFromEnv;
 
     client = Client(serverUrl, connectionTimeout: const Duration(seconds: 2))
       ..connectivityMonitor = FlutterConnectivityMonitor();

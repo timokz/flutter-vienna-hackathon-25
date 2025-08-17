@@ -5,8 +5,6 @@ import 'package:wien_talks_flutter/screens/latest_quotes_screen.dart';
 import 'package:wien_talks_flutter/widgets/intro_text_widget.dart';
 import 'package:wien_talks_flutter/widgets/screen_widget.dart';
 
-import '../widgets/carousel_widget.dart';
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
     super.key,
@@ -43,7 +41,6 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            CarouselWidget(),
             Row(
               children: [
                 Spacer(),
