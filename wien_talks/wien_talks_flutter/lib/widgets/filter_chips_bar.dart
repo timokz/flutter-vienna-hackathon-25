@@ -37,7 +37,7 @@ class FilterChipsBar extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           ChoiceChip(
-            label: const Text('Loveed'),
+            label: const Text('Loved'),
             selected: sort == 'top',
             onSelected: (_) => onSortChanged('top'),
           ),
