@@ -7,7 +7,7 @@ class UbahnTape extends StatelessWidget {
     super.key,
     this.lat,
     this.lon,
-    this.rotationDeg = -6,
+    this.rotationDeg = 6,
     this.maxLinesShown = 1,
     this.stations = kViennaStationsSample,
   });
@@ -54,7 +54,7 @@ class UbahnTape extends StatelessWidget {
               height: 14,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: _U_BLUE,
+                color: _uBlue,
                 borderRadius: BorderRadius.circular(3),
               ),
               child: const Text(
@@ -120,7 +120,7 @@ Color _onColor(Color bg) {
       : const Color(0xFF111111);
 }
 
-const _U_BLUE = Color(0xFF1E88E5); // Vienna U sign-ish blue
+const _uBlue = Color(0xFF1E88E5); // Vienna U sign-ish blue
 const _kNeutral = Color(0xFF9E9E9E);
 
 // Official-ish line colors

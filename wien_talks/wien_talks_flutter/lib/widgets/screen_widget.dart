@@ -13,9 +13,6 @@ class ScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('FunMap'),
-      ),
       floatingActionButton: AddQuoteFab(),
       body: SafeArea(
           child: Padding(
