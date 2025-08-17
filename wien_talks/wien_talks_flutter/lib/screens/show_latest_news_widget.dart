@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wien_talks_client/wien_talks_client.dart';
 import 'package:wien_talks_flutter/helper/funmap_mgr.dart';
+import 'package:wien_talks_flutter/helper/location_util.dart';
 import 'package:wien_talks_flutter/helper/time_util.dart';
-import 'package:wien_talks_flutter/widgets/quote_card.dart';
+import 'package:wien_talks_flutter/widgets/flamboyant_quote_card.dart';
 
 class LatestQuotesScreen extends StatefulWidget {
   const LatestQuotesScreen({super.key});
@@ -102,16 +104,12 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final unboundedHeight = constraints.maxHeight == double.infinity;
-
-        return ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          shrinkWrap: unboundedHeight,
-          physics: unboundedHeight
-              ? const NeverScrollableScrollPhysics()
-              : const AlwaysScrollableScrollPhysics(),
+        return MasonryGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
           itemCount: _quotes.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 6),
           itemBuilder: (context, i) {
             final q = _quotes[i];
             final author = (q.authorName ?? '').trim();
@@ -120,12 +118,12 @@ class _LatestQuotesScreenState extends State<LatestQuotesScreen> {
               timeAgo(q.createdAt),
             ].join(' · ');
 
-            return QuoteCard(
-              quote: q,
-              meta: meta,
-              onVoteUp: () => _vote(q, true),
-              onVoteDown: () => _vote(q, false),
-            );
+            return FlamboyantQuoteCard(
+                quote: q,
+                meta: meta,
+                onVoteUp: () => _vote(q, true),
+                onVoteDown: () => _vote(q, false),
+                staticMapUrlBuilder: gStaticMap);
           },
         );
       },

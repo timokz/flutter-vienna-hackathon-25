@@ -11,24 +11,23 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWidget(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HeadingText(text: "What's being said"),
-            LatestQuotesScreen(),
-            SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  context.pushNamed("create_event");
-                },
-                child: Text("Submit your own event")),
-          ],
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HeadingText(text: "What's being said"),
+        LatestQuotesScreen(),
+        SizedBox(
+          height: 30,
         ),
-      ),
+        ElevatedButton(
+            onPressed: () {
+              context.pushNamed("create_event");
+            },
+            child: Text("Submit your own event")),
+      ],
+    );
+    return ScreenWidget(
+      child: LatestQuotesScreen(),
     );
   }
 }
